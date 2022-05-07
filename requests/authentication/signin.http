@@ -1,0 +1,9 @@
+@HOST = http://localhost:8080/api
+
+POST {{HOST}}/signin HTTP/1.1
+Content-Type: application/json
+
+{
+  "password": "123456",
+  "login": "edson@growdev.com.br"
+}
