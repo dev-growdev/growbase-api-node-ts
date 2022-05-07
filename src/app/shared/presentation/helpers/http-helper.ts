@@ -1,6 +1,6 @@
 import { HttpResponse } from '../contracts';
 import { ApplicationError, Result } from '@shared/utils';
-import { DomainError } from '@shared/domain/errors';
+import { CustomError } from '@shared/domain/errors';
 
 export const ok = (result: Result<any>): HttpResponse => ({
   statusCode: 200,
@@ -19,13 +19,13 @@ export const forbidden = () => {
   };
 };
 
-export const serverError = (process: string, error: Error | DomainError): HttpResponse => ({
+export const serverError = (process: string, error: Error | CustomError): HttpResponse => ({
   statusCode: 500,
   body: Result.error(
     500,
     new ApplicationError(
       process,
-      error instanceof DomainError
+      error instanceof CustomError
         ? error.message
         : 'Aconteceu um erro inesperado, tente novamente ou entre em contato',
       [
