@@ -7,6 +7,5 @@ Content-Type: application/json
   "name": "Edson Martins",
   "email": "aa@growdev.com.br",
   "password": "123456",
-  "document": "02673873007",
-  "companyName": "Cupcake"
+  "document": "02673873007"
 }
