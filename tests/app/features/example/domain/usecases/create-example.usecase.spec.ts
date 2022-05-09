@@ -33,6 +33,10 @@ const makeSut = (): SutTypes => {
 };
 
 describe('CreateExample UseCase', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should return 400 if command is invalid', async () => {
     const { sut } = makeSut();
 

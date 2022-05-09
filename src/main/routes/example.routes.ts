@@ -3,5 +3,5 @@ import { makeCreateExampleController } from '@main/factories/controllers/example
 import express from 'express';
 
 export default (router: express.Application): void => {
-  router.post('/example', adaptRoute(makeCreateExampleController()));
+  router.post('/examples', adaptRoute(makeCreateExampleController()));
 };

@@ -41,9 +41,9 @@ const makeSut = (): SutTypes => {
 };
 
 describe('CreateExample Controller', () => {
-  beforeEach(() => jest.resetAllMocks());
-
-  afterAll(() => jest.clearAllMocks());
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   it('should call CreateExample with correct values', async () => {
     const { sut, usecase } = makeSut();
