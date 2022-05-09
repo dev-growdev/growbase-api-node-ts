@@ -50,7 +50,6 @@
       "@main/*": ["main/*"],
       "@shared/*": ["app/shared/*"],
       "@authentication/*": ["app/features/authentication/*"],
-      "@products/*": ["app/features/products/*"],
       "@example/*": ["app/features/example/*"],
       "@builders/*": ["../tests/builders/*"]
     },                                 /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */

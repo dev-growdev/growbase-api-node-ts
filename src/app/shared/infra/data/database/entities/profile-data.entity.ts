@@ -1,5 +1,5 @@
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
-import { AddressEntity, EntityBase } from '.';
+import { Column, Entity } from 'typeorm';
+import { EntityBase } from '.';
 
 @Entity({ name: 'profiles_data' })
 export class ProfileDataEntity extends EntityBase {
@@ -15,16 +15,6 @@ export class ProfileDataEntity extends EntityBase {
   @Column()
   document?: string;
 
-  @Column({ name: 'type_profile' })
-  typeProfile!: string;
-
   @Column({ name: 'uid_file' })
   uidFile?: string;
-
-  @Column({ name: 'uid_address' })
-  uidAddress?: string;
-
-  @OneToOne(() => AddressEntity)
-  @JoinColumn({ name: 'uid_address', referencedColumnName: 'uid' })
-  address?: AddressEntity;
 }

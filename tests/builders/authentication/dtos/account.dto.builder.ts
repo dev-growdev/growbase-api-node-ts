@@ -7,7 +7,6 @@ export class AccountDtoBuilder {
   #email = 'any_email@email.com';
   #document = '56520319058';
   #password = 'any_password';
-  #companyName = 'any_password';
 
   static init(): AccountDtoBuilder {
     return new AccountDtoBuilder();
@@ -18,7 +17,6 @@ export class AccountDtoBuilder {
     this.#email = undefined as any;
     this.#document = undefined as any;
     this.#password = undefined as any;
-    this.#companyName = undefined as any;
     return this;
   }
 
@@ -27,7 +25,6 @@ export class AccountDtoBuilder {
     this.#email = account.email ? (account.email as any) : this.#email;
     this.#password = account.password ? (account.password as any) : this.#password;
     this.#document = account.document ? (account.document as any) : this.#document;
-    this.#companyName = account.companyName ? (account.companyName as any) : this.#companyName;
     return this;
   }
 
@@ -37,7 +34,6 @@ export class AccountDtoBuilder {
       email: this.#email,
       document: this.#document,
       password: this.#password,
-      companyName: this.#companyName,
     };
   }
 }

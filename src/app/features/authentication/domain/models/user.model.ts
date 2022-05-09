@@ -1,5 +1,3 @@
-import { ServiceProvider } from '.';
-
 export interface AuthUser {
   login: string;
   verified: boolean;
@@ -13,6 +11,5 @@ export interface User {
   name: string;
   email: string;
   document: string;
-  serviceProviders: ServiceProvider[];
   auth?: AuthUser;
 }

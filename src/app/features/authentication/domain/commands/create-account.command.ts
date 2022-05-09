@@ -14,7 +14,6 @@ export class CreateAccountCommand extends Notification implements Command {
       document: account.document?.removeSpecialCharacters(),
       email: account.email,
       password: account.password,
-      companyName: account.companyName,
     };
   }
 
@@ -27,8 +26,7 @@ export class CreateAccountCommand extends Notification implements Command {
         .isRequired(this.account.document, 'document')
         .isValidCPFCNPJ(this.account.document, 'document')
         .isRequired(this.account.password, 'password')
-        .isMinLength(this.account.password, 6, 'password', 'Senha muito curta')
-        .isRequired(this.account.companyName, 'companyName'),
+        .isMinLength(this.account.password, 6, 'password', 'Senha muito curta'),
     );
   }
 }

@@ -3,5 +3,4 @@ export interface AccountDTO {
   email: string;
   document: string;
   password: string;
-  companyName: string;
 }

@@ -27,7 +27,7 @@ describe('CreateAccount Command', () => {
     command.validate();
 
     expect(command.isValid).toBeFalsy();
-    expect(command.notifications).toHaveLength(8);
+    expect(command.notifications).toHaveLength(7);
     expect(command.notifications).toEqual([
       { property: 'name', message: 'Este campo é obrigatório' },
       { property: 'email', message: 'Este campo é obrigatório' },
@@ -36,7 +36,6 @@ describe('CreateAccount Command', () => {
       { property: 'document', message: 'Documento inválido' },
       { property: 'password', message: 'Este campo é obrigatório' },
       { property: 'password', message: 'Senha muito curta' },
-      { property: 'companyName', message: 'Este campo é obrigatório' },
     ]);
   });
 });

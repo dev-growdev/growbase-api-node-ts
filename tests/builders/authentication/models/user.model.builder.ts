@@ -1,5 +1,4 @@
 import { AuthUser, User } from '@authentication/domain/models';
-import { ServiceProviderBuilder } from '..';
 
 type AuthUserPartial = Partial<AuthUser>;
 
@@ -9,7 +8,6 @@ export class UserBuilder {
   #name = 'any_name';
   #email = 'any@email.com';
   #document = '56520319058';
-  #serviceProviders = [ServiceProviderBuilder.init().builder()];
   #auth?: AuthUser;
 
   static init(): UserBuilder {
@@ -33,7 +31,6 @@ export class UserBuilder {
       name: this.#name,
       email: this.#email,
       document: this.#document,
-      serviceProviders: this.#serviceProviders,
       auth: this.#auth,
     };
   }

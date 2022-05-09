@@ -1,18 +1,12 @@
-import {
-  ProfileDataEntity,
-  UserEntity,
-  ServiceProviderEntity,
-  ServiceProviderUserEntity,
-} from '@shared/infra/data/database/entities';
+import { ProfileDataEntity, UserEntity } from '@shared/infra/data/database/entities';
 import { pgHelper } from '@shared/infra/data/connections/pg-helper';
 import {
   CheckUserByLoginRepository,
   CreateAccountRepository,
   LoadUserByLoginRepository,
 } from '@authentication/domain/contracts';
-import { ServiceProvider, User } from '@authentication/domain/models';
+import { User } from '@authentication/domain/models';
 import { AccountDTO } from '@authentication/domain/dtos';
-import { ETypeProfile } from '@shared/domain/enums';
 
 type Contracts = CreateAccountRepository & CheckUserByLoginRepository & LoadUserByLoginRepository;
 
@@ -22,12 +16,7 @@ export class AccountRepository implements Contracts {
 
     const user = await repository.findOne({
       where: { login: email },
-      relations: [
-        'profile',
-        'serviceProvidersUsers',
-        'serviceProvidersUsers.serviceProvider',
-        'serviceProvidersUsers.serviceProvider.profile',
-      ],
+      relations: ['profile'],
     });
 
     if (!user) return undefined;
@@ -40,14 +29,6 @@ export class AccountRepository implements Contracts {
       name: profile.name,
       email: profile.email,
       document: profile.document as string,
-      serviceProviders: user.serviceProvidersUsers?.map((spu) => {
-        const serviceProvider = spu.serviceProvider as ServiceProviderEntity;
-        return {
-          uid: serviceProvider.uid,
-          uidProfile: serviceProvider.uidProfile,
-          name: (serviceProvider.profile as ProfileDataEntity).name,
-        };
-      }) as ServiceProvider[],
       auth: {
         login: user.login,
         password: user.password,
@@ -76,7 +57,6 @@ export class AccountRepository implements Contracts {
         name: account.name,
         email: account.email,
         document: account.document,
-        typeProfile: ETypeProfile.PF,
       });
 
       await query.save(userProfile);
@@ -91,30 +71,6 @@ export class AccountRepository implements Contracts {
 
       await query.save(user);
 
-      // cria prestador de serviço
-
-      const serviceProviderProfile = query.create(ProfileDataEntity, {
-        name: account.companyName,
-        email: account.email,
-        typeProfile: ETypeProfile.PJ,
-      });
-
-      await query.save(serviceProviderProfile);
-
-      const serviceProvider = query.create(ServiceProviderEntity, {
-        uidProfile: serviceProviderProfile.uid,
-      });
-
-      await query.save(serviceProvider);
-
-      // faz ligação usuário e prestador de serviço
-      await query.save(
-        query.create(ServiceProviderUserEntity, {
-          uidUser: user.uid,
-          uidServiceProvider: serviceProvider.uid,
-        }),
-      );
-
       await pgHelper.commit();
 
       return {
@@ -123,13 +79,6 @@ export class AccountRepository implements Contracts {
         name: userProfile.name,
         email: userProfile.email,
         document: userProfile.document as string,
-        serviceProviders: [
-          {
-            uid: serviceProvider.uid,
-            uidProfile: serviceProviderProfile.uid,
-            name: serviceProviderProfile.name,
-          },
-        ],
       };
     } catch (error) {
       await pgHelper.rollback();

@@ -1,5 +1,5 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
-import { EntityBase, ProfileDataEntity, ServiceProviderUserEntity } from '.';
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { EntityBase, ProfileDataEntity } from '.';
 
 @Entity({ name: 'users' })
 export class UserEntity extends EntityBase {
@@ -21,7 +21,4 @@ export class UserEntity extends EntityBase {
   @OneToOne(() => ProfileDataEntity)
   @JoinColumn({ name: 'uid_profile', referencedColumnName: 'uid' })
   profile?: ProfileDataEntity;
-
-  @OneToMany(() => ServiceProviderUserEntity, (type) => type.user)
-  serviceProvidersUsers?: ServiceProviderUserEntity[];
 }

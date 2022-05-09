@@ -7,4 +7,3 @@ export * from './commands/authentication-command.builder';
 
 // models
 export * from './models/user.model.builder';
-export * from './models/service-provider.model.builder';

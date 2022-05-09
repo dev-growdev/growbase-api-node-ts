@@ -86,7 +86,6 @@ module.exports = {
     '@main/(.*)': '<rootDir>/src/main/$1',
     '@shared/(.*)': '<rootDir>/src/app/shared/$1',
     '@authentication/(.*)': '<rootDir>/src/app/features/authentication/$1',
-    '@products/(.*)': '<rootDir>/src/app/features/products/$1',
     '@example/(.*)': '<rootDir>/src/app/features/example/$1',
     '@builders/(.*)': '<rootDir>/tests/builders/$1',
   },
