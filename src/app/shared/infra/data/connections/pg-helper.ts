@@ -19,16 +19,16 @@ export const pgHelper = {
     await this.queryRunner.startTransaction();
   },
   async closeTransaction(): Promise<void> {
-    if (this.queryRunner === undefined) throw new Error('Transaction not opened');
+    if (!this.queryRunner) throw new Error('Transaction not opened');
     await this.queryRunner.release();
     this.queryRunner = null as any;
   },
   async commit(): Promise<void> {
-    if (this.queryRunner === undefined) throw new Error('Transaction not opened');
+    if (!this.queryRunner) throw new Error('Transaction not opened');
     await this.queryRunner.commitTransaction();
   },
   async rollback(): Promise<void> {
-    if (this.queryRunner === undefined) throw new Error('Transaction not opened');
+    if (!this.queryRunner) throw new Error('Transaction not opened');
     await this.queryRunner.rollbackTransaction();
   },
   async getRepository<T>(entity: EntityTarget<T>): Promise<Repository<T>> {

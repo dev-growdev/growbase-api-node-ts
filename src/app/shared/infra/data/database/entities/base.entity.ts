@@ -18,6 +18,7 @@ export abstract class EntityBase {
     this.updatedAt = new Date(Date.now());
   }
 
+  /* istanbul ignore next */
   @BeforeUpdate()
   public beforeUpdate(): void {
     this.updatedAt = new Date(Date.now());

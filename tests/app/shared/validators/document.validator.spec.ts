@@ -23,6 +23,12 @@ describe('CPF CNPJ Validator', () => {
     result = isValidDocument('123412321445124123');
     expect(result).toBeFalsy();
 
+    result = isValidDocument('11111111111111');
+    expect(result).toBeFalsy();
+
+    result = isValidDocument('aaaaaaaaaaaaaa');
+    expect(result).toBeFalsy();
+
     result = isValidDocument('89.756.198/0001-41');
     expect(result).toBeFalsy();
   });

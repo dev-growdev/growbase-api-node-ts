@@ -78,4 +78,19 @@ describe('HttpHelper', () => {
     expect(response.body.error.details[0].name).toBe('stack');
     expect(response.body.error.details[0].description).toBe('any_stack');
   });
+
+  it('should return status 500 with undefined error', () => {
+    const error = undefined as any;
+
+    const response = serverError('any', error);
+    console.log(response.body.error);
+
+    expect(response.statusCode).toBe(500);
+    expect(response.body.error.message).toBe(
+      'Aconteceu um erro inesperado, tente novamente ou entre em contato',
+    );
+    expect(response.body.error.process).toBe('any');
+    expect(response.body.error.details[0].name).toBe('stack');
+    expect(response.body.error.details[0].description).toBe('');
+  });
 });
