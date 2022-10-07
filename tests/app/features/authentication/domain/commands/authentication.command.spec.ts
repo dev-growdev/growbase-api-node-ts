@@ -1,4 +1,4 @@
-import { AuthenticationCommand } from '@authentication/domain/commands';
+import { AuthenticationCommand } from '@authentication/dtos';
 
 describe('Authentication Command', () => {
   it('should be a valid command', () => {

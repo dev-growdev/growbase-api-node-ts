@@ -1,4 +1,4 @@
-import { AuthUser, User } from '@authentication/domain/models';
+import { AuthUser, User } from '@authentication/models';
 
 type AuthUserPartial = Partial<AuthUser>;
 

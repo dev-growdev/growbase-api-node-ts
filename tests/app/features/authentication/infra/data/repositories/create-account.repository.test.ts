@@ -2,7 +2,7 @@ import { ProfileDataEntity, UserEntity } from '@shared/infra/data/database/entit
 import { pgHelper } from '@shared/infra/data/connections/pg-helper';
 import { CreateAccountRepository } from '@authentication/domain/contracts';
 import { AccountRepository } from '@authentication/infra/data/repositories';
-import { AccountDTO } from '@authentication/domain/dtos';
+import { AccountDTO } from '@authentication/dtos';
 import { AccountDtoBuilder } from '@builders/authentication';
 
 const makeAccount = (): AccountDTO => AccountDtoBuilder.init().builder();

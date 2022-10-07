@@ -20,7 +20,18 @@ export abstract class Notification {
     this.#notifications.push({ property, message });
   }
 
-  public addNotifications(contract: Contract): void {
-    this.#notifications.push(...contract.notifications);
+  public addNotifications(contract: Contract): void;
+  public addNotifications(notifications: NotificationDTO[]): void;
+  public addNotifications(parameter: any): void {
+    if (parameter instanceof Contract) {
+      this.#notifications.push(...parameter.notifications);
+    } else {
+      const notifications = parameter as NotificationDTO[];
+      this.#notifications.push(...notifications);
+    }
   }
+
+  // public addNotifications(notifications: NotificationDTO[]) {
+  //   this.#notifications.push(...notifications);
+  // }
 }

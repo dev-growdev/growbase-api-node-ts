@@ -1,4 +1,4 @@
-import { DataSource, EntityTarget, QueryRunner, Repository } from 'typeorm';
+import { DataSource, QueryRunner } from 'typeorm';
 import configDataSource from '../../../../../../ormconfig';
 
 export const pgHelper = {
@@ -18,26 +18,16 @@ export const pgHelper = {
     this.queryRunner = this.client.createQueryRunner();
     await this.queryRunner.startTransaction();
   },
-  async closeTransaction(): Promise<void> {
-    if (!this.queryRunner) throw new Error('Transaction not opened');
-    await this.queryRunner.release();
-    this.queryRunner = null as any;
-  },
   async commit(): Promise<void> {
     if (!this.queryRunner) throw new Error('Transaction not opened');
     await this.queryRunner.commitTransaction();
+    await this.queryRunner.release();
+    this.queryRunner = null as any;
   },
   async rollback(): Promise<void> {
     if (!this.queryRunner) throw new Error('Transaction not opened');
     await this.queryRunner.rollbackTransaction();
-  },
-  async getRepository<T>(entity: EntityTarget<T>): Promise<Repository<T>> {
-    if (!this.client || !this.client.isInitialized) {
-      await this.connect();
-    }
-
-    if (this.queryRunner) return this.queryRunner.manager.getRepository<T>(entity);
-
-    return this.client.getRepository<T>(entity);
+    await this.queryRunner.release();
+    this.queryRunner = null as any;
   },
 };

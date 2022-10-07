@@ -1,4 +1,4 @@
-import { CreateAccountCommand } from '@authentication/domain/commands';
+import { CreateAccountCommand } from '@authentication/dtos';
 import { AccountDtoBuilder } from '..';
 
 export class CreateAccountCommandBuilder {

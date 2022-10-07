@@ -1,9 +1,9 @@
 import { Controller, HttpRequest } from '@shared/presentation/contracts';
 import { notOk, ok, serverError } from '@shared/presentation/helpers';
-import { User } from '@authentication/domain/models';
+import { User } from '@authentication/models';
 import { Authentication } from '@authentication/domain/usecases';
-import { SignInController } from '@authentication/presentation/controllers';
-import { AuthenticationCommand } from '@authentication/domain/commands';
+import { SignInController } from '@authentication/controllers';
+import { AuthenticationCommand } from '@authentication/dtos';
 import { UserBuilder } from '@builders/authentication';
 import { Result } from '@shared/utils';
 import { ApplicationErrorBuilder } from '@builders/shared';

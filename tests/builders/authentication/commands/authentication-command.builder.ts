@@ -1,4 +1,4 @@
-import { AuthenticationCommand } from '@authentication/domain/commands';
+import { AuthenticationCommand } from '@authentication/dtos';
 
 export class AuthenticationCommandBuilder {
   #login = 'any@login.com';

@@ -1,4 +1,4 @@
-import { AccountDTO } from '@authentication/domain/dtos';
+import { AccountDTO } from '@authentication/dtos';
 
 type AccountDTOPartial = Partial<AccountDTO>;
 

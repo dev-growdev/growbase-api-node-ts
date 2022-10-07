@@ -5,8 +5,8 @@ import {
   CreateAccountRepository,
   CheckUserByLoginRepository,
 } from '@authentication/domain/contracts';
-import { User } from '@authentication/domain/models';
-import { CreateAccountCommand } from '@authentication/domain/commands';
+import { User } from '@authentication/models';
+import { CreateAccountCommand } from '@authentication/dtos';
 import { CreateAccountCommandBuilder, UserBuilder } from '@builders/authentication';
 import { Result } from '@shared/utils';
 import { ApplicationErrorBuilder } from '@builders/shared';

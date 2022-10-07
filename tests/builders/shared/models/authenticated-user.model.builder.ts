@@ -1,4 +1,4 @@
-import { AuthenticatedUser } from '@shared/domain/models';
+import { AuthenticatedUser } from '@shared/dtos';
 
 export class AuthenticatedUserBuilder {
   #uidProfile = 'any_uid_profile';
