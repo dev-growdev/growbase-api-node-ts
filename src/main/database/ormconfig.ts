@@ -1,12 +1,13 @@
-import { DataSourceOptions } from 'typeorm';
 import 'dotenv/config';
+import { DataSourceOptions } from 'typeorm';
 
 let config: DataSourceOptions;
 
 if (process.env.NODE_ENV?.toLocaleLowerCase() === 'test') {
   config = {
-    type: 'sqlite',
-    database: './testdb.sql',
+    type: 'postgres',
+    url: process.env.TEST_DATABASE_URL,
+    ssl: undefined,
     entities: ['src/app/shared/infra/data/database/entities/**/*'],
     migrations: ['src/app/shared/infra/data/database/migrations/**/*'],
   };

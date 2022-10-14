@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import authenticationRoutes from '@authentication/authentication.routes';
+import categoriesRoutes from '@categories/categories.routes';
 
 export default (app: express.Application): void => {
   const router = express.Router();
@@ -9,4 +10,5 @@ export default (app: express.Application): void => {
   router.get('/api', (_: Request, res: Response) => res.send('API HEALTH'));
 
   authenticationRoutes(router);
+  categoriesRoutes(router);
 };

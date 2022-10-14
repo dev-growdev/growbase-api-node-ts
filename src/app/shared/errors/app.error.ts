@@ -1,8 +1,8 @@
 import { CustomError } from '.';
 
-export class NotFoundError extends CustomError {
+export class AppError extends CustomError {
   constructor(message: string) {
     super(message);
-    this.name = 'NotFoundError';
+    this.name = 'AppError';
   }
 }

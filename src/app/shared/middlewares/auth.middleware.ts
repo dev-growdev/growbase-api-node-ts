@@ -1,7 +1,7 @@
 import { NextFunction, Response, Request } from 'express';
 import { forbidden } from '@shared/utils';
 import { JwtAdapter } from '@shared/adapters';
-import { appEnvironments } from '@shared/envs';
+import { appEnvironments } from '@envs/.';
 
 export class AuthMiddleware {
   async handle(request: Request, response: Response, next: NextFunction) {

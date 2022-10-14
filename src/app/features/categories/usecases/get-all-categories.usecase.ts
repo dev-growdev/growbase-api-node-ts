@@ -1,0 +1,16 @@
+import { CategoryJson } from '@models/.';
+import { CategoryRepository } from '@categories/repositories/category.repository';
+import { Result } from '@shared/utils';
+
+export class GetAllCategories {
+  readonly #categoryRepository: CategoryRepository;
+
+  constructor(categoryRepository: CategoryRepository) {
+    this.#categoryRepository = categoryRepository;
+  }
+
+  async execute(): Promise<Result<CategoryJson[]>> {
+    const categories = await this.#categoryRepository.getAllCategories();
+    return Result.success(categories.map((category) => category.toJson()));
+  }
+}

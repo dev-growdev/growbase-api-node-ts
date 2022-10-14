@@ -3,7 +3,7 @@ import { ApplicationError, Result } from '@shared/utils';
 import { User } from '@authentication/models';
 import { AccountRepository } from '@authentication/repositories';
 import { AuthenticationDTO, CredentialUserDTO } from '@authentication/dtos';
-import { DomainError } from '@shared/errors';
+import { AppError } from '@shared/errors';
 
 interface Response {
   user: User;
@@ -47,8 +47,8 @@ export class SignIn {
 
     const credentialUser = user.credential as CredentialUserDTO;
 
-    if (!credentialUser?.enable) throw new DomainError('Usuário não habilitado');
-    if (!credentialUser?.verified) throw new DomainError('Usuário não verificado');
+    if (!credentialUser?.enable) throw new AppError('Usuário não habilitado');
+    if (!credentialUser?.verified) throw new AppError('Usuário não verificado');
 
     const correctPassword = await this.#encrypter.compare(
       authentication.password,

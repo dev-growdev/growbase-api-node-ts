@@ -84,9 +84,11 @@ module.exports = {
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
     '@main/(.*)': '<rootDir>/src/main/$1',
+    '@envs/(.*)': '<rootDir>/src/app/envs/$1',
+    '@models/(.*)': '<rootDir>/src/app/models/$1',
     '@shared/(.*)': '<rootDir>/src/app/shared/$1',
     '@authentication/(.*)': '<rootDir>/src/app/features/authentication/$1',
-    '@example/(.*)': '<rootDir>/src/app/features/example/$1',
+    '@categories/(.*)': '<rootDir>/src/app/features/categories/$1',
     '@builders/(.*)': '<rootDir>/tests/builders/$1',
   },
 

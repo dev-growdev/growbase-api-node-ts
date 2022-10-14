@@ -9,12 +9,12 @@ export class AccountRepository {
 
     const userDB = await manager.findOne(UserEntity, {
       where: { login },
-      relations: ['profile'],
+      relations: ['profileEntity'],
     });
 
     if (!userDB) return undefined;
 
-    const profileDB = userDB.profile as ProfileDataEntity;
+    const profileDB = userDB.profileEntity as ProfileDataEntity;
 
     const user = new User({
       userUid: userDB.uid,

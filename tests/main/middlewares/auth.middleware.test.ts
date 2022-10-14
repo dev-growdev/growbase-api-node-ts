@@ -2,7 +2,7 @@ import request from 'supertest';
 import app from '@main/config/app';
 import { auth } from '@main/middlewares';
 import { JwtAdapter } from '@shared/infra/adapters';
-import { appEnvironments } from '@shared/envs';
+import { appEnvironments } from 'app/envs';
 
 describe('Auth Middleware', () => {
   it('should return forbiden when token does not provided', async () => {

@@ -1,5 +1,5 @@
 import { DataSource, QueryRunner } from 'typeorm';
-import configDataSource from '../../../../../../ormconfig';
+import configDataSource from '@main/database/ormconfig';
 
 export const pgHelper = {
   client: null as unknown as DataSource,

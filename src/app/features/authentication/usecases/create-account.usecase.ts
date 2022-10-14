@@ -2,7 +2,7 @@ import { AccountDTO } from '@authentication/dtos';
 import { User } from '@authentication/models';
 import { AccountRepository } from '@authentication/repositories';
 import { BcryptAdapter } from '@shared/adapters';
-import { DomainError } from '@shared/errors';
+import { AppError } from '@shared/errors';
 import { ApplicationError, Result } from '@shared/utils';
 
 export class CreateAccount {
@@ -31,7 +31,7 @@ export class CreateAccount {
 
     const userAlreadyExists = await this.#accountRepository.checkUserByLogin(account.email);
 
-    if (userAlreadyExists) throw new DomainError('Usuário já existe com este e-mail');
+    if (userAlreadyExists) throw new AppError('Usuário já existe com este e-mail');
 
     const cipherPassword = await this.#encrypter.hash(account.password);
 

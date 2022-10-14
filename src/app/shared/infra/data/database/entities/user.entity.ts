@@ -20,5 +20,5 @@ export class UserEntity extends EntityBase {
 
   @OneToOne(() => ProfileDataEntity)
   @JoinColumn({ name: 'uid_profile', referencedColumnName: 'uid' })
-  profile?: ProfileDataEntity;
+  profileEntity?: ProfileDataEntity;
 }

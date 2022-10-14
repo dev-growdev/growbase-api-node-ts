@@ -13,7 +13,11 @@ export const notOk = (response: Response, result: Result<any>) => {
 export const forbidden = (response: Response) => {
   return response
     .status(401)
-    .json(Result.error(403, new ApplicationError('handle -> AuthMiddleware', 'Acesso negado', [])));
+    .json(Result.error(401, new ApplicationError('handle -> AuthMiddleware', 'Acesso negado', [])));
+};
+
+export const notFound = (response: Response, message: string) => {
+  return response.status(404).json(Result.error(404, new ApplicationError('', message, [])));
 };
 
 export const serverError = (response: Response, process: string, error: Error | CustomError) => {

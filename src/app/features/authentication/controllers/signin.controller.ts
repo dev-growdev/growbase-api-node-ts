@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { SignIn } from '@authentication/usecases';
 import { AccountRepository } from '@authentication/repositories';
 import { BcryptAdapter, JwtAdapter } from '@shared/adapters';
-import { appEnvironments } from '@shared/envs';
+import { appEnvironments } from '@envs/.';
 import { AuthenticationDTO } from '@authentication/dtos';
 import { notOk, ok, serverError } from '@shared/utils';
 

@@ -5,7 +5,7 @@ export interface NotificationDTO {
   message: string;
 }
 
-export abstract class Notification {
+export class Notification {
   #notifications: NotificationDTO[] = [];
 
   public get notifications(): NotificationDTO[] {
