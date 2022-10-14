@@ -1,11 +1,11 @@
-interface CredentialUserData {
+export interface CredentialUserDTO {
   login: string;
   verified: boolean;
   enable: boolean;
   password: string;
 }
 
-export class CredentialUserDTO {
+export class CredentialUser {
   #login: string;
   get login(): string {
     return this.#login;
@@ -26,7 +26,7 @@ export class CredentialUserDTO {
     return this.#password;
   }
 
-  constructor({ login, password, verified, enable }: CredentialUserData) {
+  constructor({ login, password, verified, enable }: CredentialUserDTO) {
     this.#login = login;
     this.#password = password;
     this.#verified = verified;

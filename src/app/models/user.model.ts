@@ -1,12 +1,12 @@
-import { CpfCnpjDTO, CredentialUserDTO } from '@authentication/dtos';
+import { CredentialUser } from '.';
+import '@shared/utils/extension-methods';
 
-interface UserDTO {
+export interface UserDTO {
   userUid: string;
   profileUid: string;
   name: string;
   email: string;
-  document?: CpfCnpjDTO;
-  credential?: CredentialUserDTO;
+  document?: string;
 }
 
 export class User {
@@ -30,22 +30,25 @@ export class User {
     return this.#email;
   }
 
-  #document?: CpfCnpjDTO;
-  get document(): CpfCnpjDTO | undefined {
+  #document?: string;
+  get document(): string | undefined {
     return this.#document;
   }
 
-  #credential?: CredentialUserDTO;
-  get credential(): CredentialUserDTO | undefined {
+  #credential?: CredentialUser;
+  get credential(): CredentialUser | undefined {
     return this.#credential;
   }
 
-  constructor({ profileUid, userUid, name, document, email, credential }: UserDTO) {
+  constructor({ profileUid, userUid, name, document, email }: UserDTO) {
     this.#profileUid = profileUid;
     this.#userUid = userUid;
     this.#name = name;
-    this.#document = document;
+    this.#document = document?.removeSpecialCharacters();
     this.#email = email;
+  }
+
+  addCredential(credential: CredentialUser): void {
     this.#credential = credential;
   }
 
@@ -53,13 +56,13 @@ export class User {
     this.#credential = undefined;
   }
 
-  toJson(): any {
+  toJson(): UserDTO {
     return {
       userUid: this.#userUid,
       profileUid: this.#profileUid,
       name: this.#name,
       email: this.#email,
-      document: this.#document?.value,
+      document: this.#document,
     };
   }
 }

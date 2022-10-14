@@ -1,4 +1,4 @@
-import { CategoryJson } from '@models/.';
+import { CategoryDTO } from '@models/.';
 import { CategoryRepository } from '@categories/repositories/category.repository';
 import { Result } from '@shared/utils';
 
@@ -9,7 +9,7 @@ export class DeleteCategory {
     this.#categoryRepository = categoryRepository;
   }
 
-  async execute(categoryUid: string): Promise<Result<CategoryJson>> {
+  async execute(categoryUid: string): Promise<Result<CategoryDTO>> {
     const category = await this.#categoryRepository.deleteCategory(categoryUid);
     return Result.success(category.toJson());
   }

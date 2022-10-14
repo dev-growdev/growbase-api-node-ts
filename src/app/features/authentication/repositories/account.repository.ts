@@ -1,34 +1,41 @@
 import { ProfileDataEntity, UserEntity } from '@shared/infra/data/database/entities';
 import { pgHelper } from '@shared/infra/data/connections/pg-helper';
-import { AccountDTO, CpfCnpjDTO, CredentialUserDTO } from '@authentication/dtos';
-import { User } from '@authentication/models';
+import { User, CredentialUser } from '@models/.';
+
+interface AccountDTO {
+  name: string;
+  email: string;
+  document: string;
+  password: string;
+}
 
 export class AccountRepository {
   async loadUserByLogin(login: string): Promise<User | undefined> {
     const manager = pgHelper.client.manager;
 
-    const userDB = await manager.findOne(UserEntity, {
+    const userEntity = await manager.findOne(UserEntity, {
       where: { login },
       relations: ['profileEntity'],
     });
 
-    if (!userDB) return undefined;
-
-    const profileDB = userDB.profileEntity as ProfileDataEntity;
+    if (!userEntity) return undefined;
 
     const user = new User({
-      userUid: userDB.uid,
-      profileUid: profileDB.uid,
-      name: profileDB.name,
-      email: profileDB.email,
-      document: profileDB.document ? new CpfCnpjDTO(profileDB.document) : undefined,
-      credential: new CredentialUserDTO({
-        login: userDB.login,
-        password: userDB.password,
-        enable: userDB.enable,
-        verified: userDB.verified,
-      }),
+      userUid: userEntity.uid,
+      profileUid: userEntity.profile.uid,
+      name: userEntity.profile.name,
+      email: userEntity.profile.email,
+      document: userEntity.profile.document,
     });
+
+    user.addCredential(
+      new CredentialUser({
+        login: userEntity.login,
+        password: userEntity.password,
+        enable: userEntity.enable,
+        verified: userEntity.verified,
+      }),
+    );
 
     return user;
   }
@@ -39,39 +46,39 @@ export class AccountRepository {
     return !!user;
   }
 
-  async createAccount(account: AccountDTO): Promise<User> {
+  async createAccount({ name, email, password, document }: AccountDTO): Promise<User> {
     await pgHelper.openTransaction();
 
     try {
       const manager = pgHelper.queryRunner.manager;
 
       // cria usuário
-      const profileDB = manager.create(ProfileDataEntity, {
-        name: account.name,
-        email: account.email,
-        document: account.document.value,
+      const profileEntity = manager.create(ProfileDataEntity, {
+        name,
+        email,
+        document,
       });
 
-      await manager.save(profileDB);
+      await manager.save(profileEntity);
 
-      const userDB = manager.create(UserEntity, {
-        login: account.email,
-        password: account.password,
+      const userEntity = manager.create(UserEntity, {
+        login: email,
+        password,
         enable: true,
         verified: false,
-        uidProfile: profileDB.uid,
+        uidProfile: profileEntity.uid,
       });
 
-      await manager.save(userDB);
+      await manager.save(userEntity);
 
       await pgHelper.commit();
 
       const user = new User({
-        userUid: userDB.uid,
-        profileUid: profileDB.uid,
-        name: profileDB.name,
-        email: profileDB.email,
-        document: profileDB.document ? new CpfCnpjDTO(profileDB.document) : undefined,
+        userUid: userEntity.uid,
+        profileUid: profileEntity.uid,
+        name: profileEntity.name,
+        email: profileEntity.email,
+        document: profileEntity.document,
       });
 
       return user;

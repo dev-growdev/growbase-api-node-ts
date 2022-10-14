@@ -4,10 +4,10 @@ PUT {{HOST}}/categories/a3a75c37-84be-435b-a360-d6fccf3c0a96 HTTP/1.1
 Content-Type: application/json
 
 {
-  "name":"FRUTAS",
+  "name":"bb",
   "description": "FRUTAS",
   "image": {
-    "uid": "",
-    "url": "any"
+    "uid": "c5dcd10a-11f5-47da-91ad-4c2e52ce3375",
+    "url": "914fc165-8745-452b-b9ba-3450dde5a048"
   }
 }

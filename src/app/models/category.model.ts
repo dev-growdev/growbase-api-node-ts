@@ -1,11 +1,11 @@
-import { File, FileJson } from '.';
+import { File, FileDTO } from '.';
 
-export interface CategoryJson {
+export interface CategoryDTO {
   uid: string;
   name: string;
   description: string;
   enable: boolean;
-  image: FileJson;
+  image: FileDTO;
 }
 
 export class Category {
@@ -34,7 +34,7 @@ export class Category {
     return this.#image;
   }
 
-  constructor({ uid, name, description, enable, image }: CategoryJson) {
+  constructor({ uid, name, description, enable, image }: CategoryDTO) {
     this.#uid = uid;
     this.#name = name;
     this.#description = description;
@@ -42,7 +42,7 @@ export class Category {
     this.#image = new File(image);
   }
 
-  toJson(): CategoryJson {
+  toJson(): CategoryDTO {
     return {
       uid: this.#uid,
       name: this.#name,

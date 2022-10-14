@@ -1,4 +1,4 @@
-import { CategoryJson } from '@models/.';
+import { CategoryDTO } from '@models/.';
 import { CategoryRepository } from '@categories/repositories/category.repository';
 import { Result } from '@shared/utils';
 
@@ -9,7 +9,7 @@ export class GetAllCategories {
     this.#categoryRepository = categoryRepository;
   }
 
-  async execute(): Promise<Result<CategoryJson[]>> {
+  async execute(): Promise<Result<CategoryDTO[]>> {
     const categories = await this.#categoryRepository.getAllCategories();
     return Result.success(categories.map((category) => category.toJson()));
   }

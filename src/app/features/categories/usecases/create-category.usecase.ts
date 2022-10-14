@@ -1,4 +1,4 @@
-import { CategoryJson, FileJson } from '@models/.';
+import { CategoryDTO, FileDTO } from '@models/.';
 import { CategoryRepository } from '@categories/repositories/category.repository';
 import { AwsService } from '@shared/external';
 import { Result } from '@shared/utils';
@@ -12,8 +12,8 @@ export class CreateCategory {
     this.#awsService = awsService;
   }
 
-  async execute(categoryDto: Partial<CategoryJson>): Promise<Result<CategoryJson>> {
-    const image = categoryDto.image as FileJson;
+  async execute(categoryDto: Partial<CategoryDTO>): Promise<Result<CategoryDTO>> {
+    const image = categoryDto.image as FileDTO;
     const fileKey = await this.#awsService.upload(image.url);
     image.url = fileKey;
 

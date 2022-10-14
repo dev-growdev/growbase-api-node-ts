@@ -1,9 +1,15 @@
-import { AccountDTO } from '@authentication/dtos';
-import { User } from '@authentication/models';
 import { AccountRepository } from '@authentication/repositories';
+import { UserDTO } from '@models/.';
 import { BcryptAdapter } from '@shared/adapters';
 import { AppError } from '@shared/errors';
-import { ApplicationError, Result } from '@shared/utils';
+import { Result } from '@shared/utils';
+
+interface AccountDTO {
+  name: string;
+  email: string;
+  document: string;
+  password: string;
+}
 
 export class CreateAccount {
   readonly #accountRepository: AccountRepository;
@@ -14,30 +20,19 @@ export class CreateAccount {
     this.#encrypter = encrypter;
   }
 
-  async execute(account: AccountDTO): Promise<Result<User>> {
-    if (!account.isValid) {
-      return Result.error(
-        400,
-        new ApplicationError(
-          'execute -> CreateAccount',
-          'Requisição inválida',
-          account.notifications.map((notification) => ({
-            name: notification.property,
-            description: notification.message,
-          })),
-        ),
-      );
-    }
-
-    const userAlreadyExists = await this.#accountRepository.checkUserByLogin(account.email);
+  async execute({ name, password, document, email }: AccountDTO): Promise<Result<UserDTO>> {
+    const userAlreadyExists = await this.#accountRepository.checkUserByLogin(email);
 
     if (userAlreadyExists) throw new AppError('Usuário já existe com este e-mail');
 
-    const cipherPassword = await this.#encrypter.hash(account.password);
+    const cipherPassword = await this.#encrypter.hash(password);
 
-    account.updatePassword(cipherPassword);
-
-    const user = await this.#accountRepository.createAccount(account);
+    const user = await this.#accountRepository.createAccount({
+      document,
+      email,
+      name,
+      password: cipherPassword,
+    });
 
     return Result.success(user.toJson());
   }

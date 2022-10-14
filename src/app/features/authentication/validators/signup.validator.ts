@@ -1,27 +1,27 @@
 import { Contract, Notification } from '@shared/notifications';
 import { ApplicationError, Result } from '@shared/utils';
 import { NextFunction, Request, Response } from 'express';
+import '@shared/utils/extension-methods';
 
-export class CreateCategoryValidator {
+export class SignUpValidator {
   handle(request: Request, response: Response, next: NextFunction) {
-    const { name, description, image } = request.body;
+    const { name, email, password, document } = request.body;
 
     const notifications = new Notification();
 
     notifications.addNotifications(
       new Contract()
-        .isRequired(name, 'Nome')
-        .isMaxLength(name, 100, 'Nome', 'Tamanho máximo 100')
-        .isRequired(image, 'Imagem'),
+        .isRequired(name, 'name')
+        .isRequired(email, 'email')
+        .isValidEmail(email, 'email')
+        .isRequired(password, 'password')
+        .isMinLength(password, 6, 'password', 'Senha muito curta')
+        .isRequired(document, 'Documento'),
     );
 
-    if (image) {
-      notifications.addNotifications(new Contract().isRequired(image.url, 'Imagem'));
-    }
-
-    if (description) {
+    if (document) {
       notifications.addNotifications(
-        new Contract().isMaxLength(description, 200, 'Descrição', 'Tamanho máximo 200'),
+        new Contract().isValidCPFCNPJ(document.removeSpecialCharacters(), 'Documento'),
       );
     }
 
@@ -30,7 +30,7 @@ export class CreateCategoryValidator {
         Result.error(
           400,
           new ApplicationError(
-            'handle -> CreateCategoryValidator',
+            'handle -> SignUpValidator',
             'Requisição inválida',
             notifications.notifications.map((notification) => ({
               name: notification.property,

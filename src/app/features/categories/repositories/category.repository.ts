@@ -1,4 +1,4 @@
-import { Category, CategoryJson } from '@models/.';
+import { Category, CategoryDTO } from '@models/.';
 import { AppError } from '@shared/errors';
 import { pgHelper } from '@shared/infra/data/connections/pg-helper';
 import { CategoryEntity, FileEntity } from '@shared/infra/data/database/entities';
@@ -22,7 +22,7 @@ export class CategoryRepository {
     return this.mapToModel(category);
   }
 
-  async createCategory(category: Partial<CategoryJson>): Promise<Category> {
+  async createCategory(category: Partial<CategoryDTO>): Promise<Category> {
     await pgHelper.openTransaction();
 
     const manager = pgHelper.queryRunner.manager;

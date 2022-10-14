@@ -1,4 +1,4 @@
-export interface FileJson {
+export interface FileDTO {
   uid: string;
   url: string;
 }
@@ -14,12 +14,12 @@ export class File {
     return this.#url;
   }
 
-  constructor({ uid, url }: FileJson) {
+  constructor({ uid, url }: FileDTO) {
     this.#uid = uid;
     this.#url = url;
   }
 
-  toJson(): FileJson {
+  toJson(): FileDTO {
     return {
       uid: this.#uid,
       url: this.#url,
