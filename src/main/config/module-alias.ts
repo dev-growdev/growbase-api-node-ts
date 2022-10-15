@@ -10,3 +10,4 @@ addAlias('@models', resolve(rootDir, 'app/models'));
 addAlias('@shared', resolve(rootDir, 'app/shared'));
 addAlias('@authentication', resolve(rootDir, 'app/features/authentication'));
 addAlias('@categories', resolve(rootDir, 'app/features/categories'));
+addAlias('@products', resolve(rootDir, 'app/features/products'));

@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import authenticationRoutes from '@authentication/authentication.routes';
 import categoriesRoutes from '@categories/categories.routes';
+import productsRoutes from '@products/products.routes';
 
 export default (app: express.Application): void => {
   const router = express.Router();
@@ -11,4 +12,5 @@ export default (app: express.Application): void => {
 
   authenticationRoutes(router);
   categoriesRoutes(router);
+  productsRoutes(router);
 };

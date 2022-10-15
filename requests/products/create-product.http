@@ -1,0 +1,26 @@
+@HOST = http://localhost:8080/api
+
+POST {{HOST}}/products HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyVWlkIjoiNmE0ZTFiYjItNTkyYS00Yjk4LTg5ODYtODg1NmMyZGU4NzkwIiwicHJvZmlsZVVpZCI6ImIzOTk3Yjc2LTM2NjMtNDg2NS05NTg2LTc4ZTU4MzgwZjE0MCIsImlhdCI6MTY2NTgwNzg2OSwiZXhwIjoxNjY1ODk0MjY5fQ.JFvcmC0UCpCELB4b6p1RiLOzRCj5jJpKBdNySmtog68
+
+{
+  "name": "Produto 1",
+  "description": "Descricao 1",
+  "categories": [
+    {
+      "uid": "75cb70ff-3900-4633-849d-ab38120dcde9",
+      "name": "Tesntando"
+    },
+    {
+      "uid": "bf034a12-3222-4ccd-a3b0-8364c92c74a4",
+      "name": "Tesntando"
+    }
+  ],
+  "images": [
+    {
+      "uid": "",
+      "url": "any_url"
+    }
+  ]
+}

@@ -28,7 +28,7 @@ export class ProductEntity extends EntityBase {
 
   @ManyToOne(() => UserEntity)
   @JoinColumn({ name: 'created_by_user_uid', referencedColumnName: 'uid' })
-  createByUserEntity?: UserEntity;
+  createdByUserEntity?: UserEntity;
 
   @OneToMany(() => ProductFileEntity, (entity) => entity.productEntity)
   productFileEntities?: ProductFileEntity[];
@@ -36,7 +36,7 @@ export class ProductEntity extends EntityBase {
   get categories(): CategoryEntity[] {
     if (
       !this.productCategoryEntities ||
-      this.productCategoryEntities.some((e) => !!e.categoryEntity)
+      this.productCategoryEntities.some((e) => !e.categoryEntity)
     ) {
       throw new AppError('Categorias não carregada na entidade');
     }
@@ -44,9 +44,16 @@ export class ProductEntity extends EntityBase {
   }
 
   get files(): FileEntity[] {
-    if (!this.productFileEntities || this.productFileEntities.some((e) => !!e.fileEntity)) {
+    if (!this.productFileEntities || this.productFileEntities.some((e) => !e.fileEntity)) {
       throw new AppError('Arquivos não carregado na entidade');
     }
     return this.productFileEntities.map((e) => e.fileEntity as FileEntity);
+  }
+
+  get createdByUser(): UserEntity {
+    if (!this.createdByUserEntity) {
+      throw new AppError('Usuário não carregado na entidade');
+    }
+    return this.createdByUserEntity as UserEntity;
   }
 }

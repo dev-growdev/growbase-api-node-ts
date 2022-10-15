@@ -89,6 +89,7 @@ module.exports = {
     '@shared/(.*)': '<rootDir>/src/app/shared/$1',
     '@authentication/(.*)': '<rootDir>/src/app/features/authentication/$1',
     '@categories/(.*)': '<rootDir>/src/app/features/categories/$1',
+    '@products/(.*)': '<rootDir>/src/app/features/products/$1',
     '@builders/(.*)': '<rootDir>/tests/builders/$1',
   },
 

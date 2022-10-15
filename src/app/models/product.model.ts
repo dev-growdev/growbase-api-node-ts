@@ -1,11 +1,11 @@
 import { Category, CategoryDTO, FileDTO, SimpleUser, SimpleUserDTO, File } from '.';
 
-interface ProductDTO {
+export interface ProductDTO {
   uid: string;
   name: string;
   description: string;
   enable: boolean;
-  createdUser: SimpleUserDTO;
+  createdUser?: SimpleUserDTO;
   categories: CategoryDTO[];
   images: FileDTO[];
 }
@@ -31,8 +31,8 @@ export class Product {
     return this.#enable;
   }
 
-  #createdUser: SimpleUser;
-  get createdUser(): SimpleUser {
+  #createdUser?: SimpleUser;
+  get createdUser(): SimpleUser | undefined {
     return this.#createdUser;
   }
 
@@ -51,9 +51,12 @@ export class Product {
     this.#name = name;
     this.#description = description;
     this.#enable = enable;
-    this.#createdUser = new SimpleUser(createdUser);
     this.#categories = categories.map((c) => new Category(c));
     this.#images = images.map((i) => new File(i));
+
+    if (createdUser) {
+      this.#createdUser = new SimpleUser(createdUser);
+    }
   }
 
   toJson(): ProductDTO {
@@ -62,7 +65,7 @@ export class Product {
       name: this.#name,
       description: this.#description,
       enable: this.#enable,
-      createdUser: this.#createdUser.toJson(),
+      createdUser: this.#createdUser?.toJson(),
       categories: this.#categories.map((c) => c.toJson()),
       images: this.#images.map((i) => i.toJson()),
     };

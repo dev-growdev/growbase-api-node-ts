@@ -53,6 +53,7 @@
       "@models/*": ["app/models/*"],
       "@authentication/*": ["app/features/authentication/*"],
       "@categories/*": ["app/features/categories/*"],
+      "@products/*": ["app/features/products/*"],
       "@builders/*": ["../tests/builders/*"]
     },                                 /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
     "rootDirs": [
