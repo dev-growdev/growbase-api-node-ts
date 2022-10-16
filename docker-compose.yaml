@@ -33,6 +33,23 @@ services:
     networks:
       - growbase
 
+  db_test:
+    image: postgres
+    restart: always
+    container_name: test-postgres-growbase
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    environment:
+      POSTGRES_PASSWORD: test2022
+      POSTGRES_USER: test
+      POSTGRES_DB: test_app
+    ports:
+      - 5433:5432
+    networks:
+      - growbase
+
   redis:
     image: redis
     container_name: redis-growbase

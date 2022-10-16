@@ -3,7 +3,7 @@ import { AppError } from '@shared/errors';
 import { pgHelper } from '@shared/database/connections/pg-helper';
 import { CategoryEntity, FileEntity } from '@shared/database/entities';
 
-export interface CreateOrUpdateCategoryDTO {
+interface CreateOrUpdateCategoryDTO {
   uid: string;
   name: string;
   description?: string;

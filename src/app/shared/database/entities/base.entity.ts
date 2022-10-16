@@ -1,5 +1,5 @@
+import { randomUUID } from 'crypto';
 import { BeforeInsert, BeforeUpdate, Column, PrimaryColumn } from 'typeorm';
-import { v4 as uuid } from 'uuid';
 
 export abstract class EntityBase {
   @PrimaryColumn()
@@ -13,7 +13,7 @@ export abstract class EntityBase {
 
   @BeforeInsert()
   public beforeInsert(): void {
-    this.uid = uuid();
+    this.uid = randomUUID();
     this.createdAt = new Date(Date.now());
     this.updatedAt = new Date(Date.now());
   }

@@ -3,7 +3,7 @@ import { AwsService } from '@shared/external';
 import { Result } from '@shared/utils';
 import { CategoryRepository } from '@categories/repositories';
 
-export interface CreateCategoryDTO {
+interface CreateCategoryDTO {
   name: string;
   description?: string;
   image: FileDTO;

@@ -3,7 +3,7 @@ import { FileDTO, CategoryDTO } from '@models/.';
 import { AwsService } from '@shared/external';
 import { Result } from '@shared/utils';
 
-export interface UpdateCategoryDTO {
+interface UpdateCategoryDTO {
   uid: string;
   name: string;
   description?: string;
