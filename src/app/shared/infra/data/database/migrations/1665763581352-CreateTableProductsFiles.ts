@@ -9,6 +9,7 @@ export class CreateTableProductsFiles1665763581352 implements MigrationInterface
           { name: 'uid', type: 'uuid', isPrimary: true, isNullable: false },
           { name: 'product_uid', type: 'uuid', isNullable: false },
           { name: 'file_uid', type: 'uuid', isNullable: false },
+          { name: 'is_main', type: 'boolean', isNullable: false, default: false },
           { name: 'created_at', type: 'timestamp', isNullable: false },
           { name: 'updated_at', type: 'timestamp', isNullable: false },
         ],

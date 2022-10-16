@@ -1,4 +1,4 @@
-import { CategoryDTO, FileDTO, Product, ProductDTO, SimpleUserDTO } from '@models/.';
+import { CategoryDTO, FileDTO, Product, SimpleUserDTO } from '@models/.';
 import { AppError } from '@shared/errors';
 import { pgHelper } from '@shared/infra/data/connections/pg-helper';
 import {
@@ -10,15 +10,38 @@ import {
   UserEntity,
 } from '@shared/infra/data/database/entities';
 
+interface CreateProductDTO {
+  name: string;
+  description: string;
+  createdUserUid: string;
+  categories: string[];
+  images: {
+    key: string;
+    isMain: boolean;
+  }[];
+}
+
+interface UpdateProductDTO {
+  uid: string;
+  name: string;
+  description: string;
+  categories: string[];
+  images: {
+    uid: string;
+    key: string;
+    isMain: boolean;
+  }[];
+}
+
 export class ProductRepository {
-  async createProduct(product: Partial<ProductDTO>): Promise<Product> {
+  async createProduct(productData: CreateProductDTO): Promise<Product> {
     await pgHelper.openTransaction();
 
     try {
       const manager = pgHelper.queryRunner.manager;
 
       const userEntity = await manager.findOne(UserEntity, {
-        where: { uid: product.createdUser?.userUid },
+        where: { uid: productData.createdUserUid },
         relations: ['profileEntity'],
       });
 
@@ -27,10 +50,10 @@ export class ProductRepository {
       }
 
       const productEntity = manager.create(ProductEntity, {
-        name: product.name,
-        description: product.description,
+        name: productData.name,
+        description: productData.description,
         enable: true,
-        createdByUserUid: product.createdUser?.userUid,
+        createdByUserUid: userEntity.uid,
       });
 
       await manager.save(productEntity);
@@ -40,15 +63,15 @@ export class ProductRepository {
       // vincula as categorias
       const productCategoryEntities: ProductCategoryEntity[] = [];
 
-      for await (const category of product.categories as CategoryDTO[]) {
-        const categoryEntity = await manager.findOneBy(CategoryEntity, { uid: category.uid });
+      for await (const categoryUid of productData.categories) {
+        const categoryEntity = await manager.findOneBy(CategoryEntity, { uid: categoryUid });
 
         if (!categoryEntity) {
           throw new AppError('Categoria não encontrada');
         }
 
         const productCategoryEntity = manager.create(ProductCategoryEntity, {
-          categoryUid: category.uid,
+          categoryUid,
           productUid: productEntity.uid,
         });
 
@@ -64,10 +87,10 @@ export class ProductRepository {
       // cria e vincula imagens
       const productFileEntities: ProductFileEntity[] = [];
 
-      for await (const image of product.images as FileDTO[]) {
+      for await (const image of productData.images) {
         const fileEntity = manager.create(FileEntity, {
-          name: image.url,
-          key: image.url,
+          name: image.key,
+          key: image.key,
         });
 
         await manager.save(fileEntity);
@@ -75,6 +98,7 @@ export class ProductRepository {
         const productFileEntity = manager.create(ProductFileEntity, {
           productUid: productEntity.uid,
           fileUid: fileEntity.uid,
+          isMain: image.isMain,
         });
 
         await manager.save(productFileEntity);
@@ -85,11 +109,102 @@ export class ProductRepository {
 
       productEntity.productFileEntities = productFileEntities;
 
+      const productModel = this.mapProductToModel(productEntity);
+
       await pgHelper.commit();
 
-      return this.mapProductToModel(productEntity);
+      return productModel;
     } catch (error) {
       await pgHelper.rollback();
+      throw error;
+    }
+  }
+
+  async updateProduct(productData: UpdateProductDTO): Promise<Product> {
+    // Campos editaveis: nome, descricao, categorias, imagem principal, imagens,
+    await pgHelper.openTransaction();
+
+    try {
+      const manager = pgHelper.queryRunner.manager;
+
+      await manager.update(
+        ProductEntity,
+        { uid: productData.uid },
+        {
+          name: productData.name,
+          description: productData.description,
+        },
+      );
+
+      // remove todas as categorias
+      await manager.delete(ProductCategoryEntity, { productUid: productData.uid });
+
+      for await (const categoryUid of productData.categories) {
+        const categoryEntity = await manager.findOneBy(CategoryEntity, { uid: categoryUid });
+
+        if (!categoryEntity) {
+          throw new AppError('Categoria não encontrada');
+        }
+
+        const productCategoryEntity = manager.create(ProductCategoryEntity, {
+          categoryUid,
+          productUid: productData.uid,
+        });
+
+        await manager.save(productCategoryEntity);
+      }
+
+      const productFileEntities = await manager.find(ProductFileEntity, {
+        where: { productUid: productData.uid },
+      });
+
+      // remove imagens que nao fazem mais parte
+      for (const productFileEntity of productFileEntities) {
+        if (!productData.images.some((image) => image.uid === productFileEntity.uid)) {
+          await manager.delete(ProductFileEntity, { uid: productFileEntity.uid });
+        }
+      }
+
+      // cria novas as imagens
+      for (const image of productData.images.filter((image) => !image.uid)) {
+        const fileEntity = manager.create(FileEntity, {
+          name: image.key,
+          key: image.key,
+        });
+
+        await manager.save(fileEntity);
+
+        const productFileEntity = manager.create(ProductFileEntity, {
+          productUid: productData.uid,
+          fileUid: fileEntity.uid,
+          isMain: image.isMain,
+        });
+
+        await manager.save(productFileEntity);
+      }
+
+      // atualiza o isMain das imagens que restaram
+      for (const image of productData.images.filter((image) => image.uid)) {
+        await manager.update(ProductFileEntity, { uid: image.uid }, { isMain: image.isMain });
+      }
+
+      const productEntity = await manager.findOne(ProductEntity, {
+        where: { uid: productData.uid },
+        relations: [
+          'productCategoryEntities',
+          'productCategoryEntities.categoryEntity',
+          'createdByUserEntity',
+          'createdByUserEntity.profileEntity',
+        ],
+      });
+
+      const product = this.mapProductToModel(productEntity as ProductEntity);
+
+      await pgHelper.commit();
+
+      return product;
+    } catch (error) {
+      pgHelper.rollback();
       throw error;
     }
   }
@@ -103,13 +218,51 @@ export class ProductRepository {
         'productCategoryEntities.categoryEntity',
         'createdByUserEntity',
         'createdByUserEntity.profileEntity',
-        'productFileEntities',
-        'productFileEntities.fileEntity',
       ],
     });
 
-    return productEntities.map(this.mapProductToModel);
+    return productEntities.map((e) => this.mapProductToModel(e));
   }
+
+  async getProductByUid(productUid: string): Promise<Product | undefined> {
+    const manager = pgHelper.client.manager;
+
+    const productEntity = await manager.findOne(ProductEntity, {
+      where: { uid: productUid },
+      relations: [
+        'productCategoryEntities',
+        'productCategoryEntities.categoryEntity',
+        'createdByUserEntity',
+        'createdByUserEntity.profileEntity',
+      ],
+    });
+
+    if (!productEntity) return undefined;
+
+    return this.mapProductToModel(productEntity);
+  }
+
+  async deleteProduct(productUid: string): Promise<Product> {
+    const manager = pgHelper.client.manager;
+
+    const productEntity = await manager.findOne(ProductEntity, {
+      where: { uid: productUid },
+    });
+
+    if (!productEntity) {
+      throw new AppError('Produto não encontrado');
+    }
+
+    await manager.update(ProductEntity, { uid: productUid }, { enable: false });
+
+    productEntity.enable = false;
+
+    return this.mapProductToModel(productEntity);
+  }
+
+  /**
+   * PRIVATE METHODS
+   */
 
   private mapProductToModel(entity: ProductEntity): Product {
     return new Product({
@@ -117,21 +270,12 @@ export class ProductRepository {
       name: entity.name,
       description: entity.description,
       enable: entity.enable,
-      createdUser: {
-        userUid: entity.createdByUserUid,
-        name: entity.createdByUser.profile.name,
-      },
-      categories: entity.categories.map((c) => ({
-        uid: entity.uid,
-        description: entity.description,
-        name: entity.name,
-        enable: entity.enable,
-        image: { uid: c.file.uid, url: c.file.key },
-      })),
-      images: entity.files.map((f) => ({
-        uid: f.uid,
-        url: f.key,
-      })),
+      coverImage: this.mapFileToDTO(entity.mainImage),
+      images: entity.files.map((f) => this.mapFileToDTO(f)),
+      createdUser: entity.createdByUserEntity ? this.mapUserToDTO(entity.createdByUser) : undefined,
+      categories: entity.productCategoryEntities
+        ? entity.categories.map((c) => this.mapCategoryToDTO(c))
+        : undefined,
     });
   }
 

@@ -3,20 +3,27 @@ import { ProductRepository } from '@products/repositories';
 import { AwsService } from '@shared/external';
 import { Result } from '@shared/utils';
 
-interface CreateProductDTO {
+interface UpdateProductDTO {
+  uid: string;
   name: string;
   description: string;
-  createdUserUid: string;
   categories: {
     uid: string;
   }[];
   images: {
+    uid: string;
     url: string;
     isMain: boolean;
   }[];
 }
 
-export class CreateProduct {
+interface ImageDTO {
+  uid: string;
+  key: string;
+  isMain: boolean;
+}
+
+export class UpdateProduct {
   readonly #productRepository: ProductRepository;
   readonly #awsService: AwsService;
 
@@ -25,15 +32,22 @@ export class CreateProduct {
     this.#awsService = awsService;
   }
 
-  async execute(productData: CreateProductDTO): Promise<Result<ProductDTO>> {
-    const images: { key: string; isMain: boolean }[] = [];
+  async execute(productData: UpdateProductDTO): Promise<Result<ProductDTO>> {
+    const images: ImageDTO[] = [];
 
-    for await (const image of productData.images) {
-      const fileKey = await this.#awsService.upload(image.url);
-      images.push({
-        key: fileKey,
-        isMain: image.isMain,
-      });
+    for await (const imageData of productData.images) {
+      const image: ImageDTO = {
+        uid: imageData.uid,
+        key: imageData.url,
+        isMain: imageData.isMain,
+      };
+
+      if (!imageData.uid) {
+        const fileKey = await this.#awsService.upload(imageData.url);
+        image.key = fileKey;
+      }
+
+      images.push(image);
     }
 
     // se nenhuma imagem for definida como principal, a primeira é definida
@@ -41,10 +55,10 @@ export class CreateProduct {
       images[0].isMain = true;
     }
 
-    const product = await this.#productRepository.createProduct({
+    const product = await this.#productRepository.updateProduct({
+      uid: productData.uid,
       name: productData.name,
       description: productData.description,
-      createdUserUid: productData.createdUserUid,
       categories: productData.categories.map((c) => c.uid),
       images: images,
     });

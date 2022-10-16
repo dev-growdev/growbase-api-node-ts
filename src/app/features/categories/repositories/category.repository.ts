@@ -1,7 +1,14 @@
-import { Category, CategoryDTO } from '@models/.';
+import { Category, FileDTO } from '@models/.';
 import { AppError } from '@shared/errors';
 import { pgHelper } from '@shared/infra/data/connections/pg-helper';
 import { CategoryEntity, FileEntity } from '@shared/infra/data/database/entities';
+
+export interface CreateOrUpdateCategoryDTO {
+  uid: string;
+  name: string;
+  description: string;
+  image: FileDTO;
+}
 
 export class CategoryRepository {
   async getAllCategories(): Promise<Array<Category>> {
@@ -22,68 +29,74 @@ export class CategoryRepository {
     return this.mapToModel(category);
   }
 
-  async createCategory(category: Partial<CategoryDTO>): Promise<Category> {
+  async createCategory(categoryData: CreateOrUpdateCategoryDTO): Promise<Category> {
     await pgHelper.openTransaction();
 
     const manager = pgHelper.queryRunner.manager;
 
     try {
       const fileEntity = manager.create(FileEntity, {
-        name: category.image?.url,
-        key: category.image?.url,
+        name: categoryData.image?.url,
+        key: categoryData.image?.url,
       });
 
       await manager.save(FileEntity, fileEntity);
 
       const categoryEntity = manager.create(CategoryEntity, {
-        name: category.name,
-        description: category.description,
+        name: categoryData.name,
+        description: categoryData.description,
         fileUid: fileEntity.uid,
         enable: true,
       });
 
       await manager.save(categoryEntity);
 
-      await pgHelper.commit();
-
       categoryEntity.fileEntity = fileEntity;
 
-      return this.mapToModel(categoryEntity);
+      const category = this.mapToModel(categoryEntity);
+
+      await pgHelper.commit();
+
+      return category;
     } catch (error) {
       await pgHelper.rollback();
       throw error;
     }
   }
 
-  async updateCategory(category: Category): Promise<Category> {
+  async updateCategory(categoryData: CreateOrUpdateCategoryDTO): Promise<Category> {
     await pgHelper.openTransaction();
 
     const manager = pgHelper.queryRunner.manager;
 
     try {
-      if (!category.image.uid) {
+      if (!categoryData.image.uid) {
         const fileEntity = manager.create(FileEntity, {
-          name: category.image.url,
-          key: category.image.url,
+          name: categoryData.image.url,
+          key: categoryData.image.url,
         });
 
         await manager.save(fileEntity);
 
-        category.updateImage(fileEntity.uid, fileEntity.key);
+        categoryData.image.uid = fileEntity.uid;
       }
 
       await manager.update(
         CategoryEntity,
-        { uid: category.uid },
+        { uid: categoryData.uid },
         {
-          name: category.name,
-          description: category.description,
-          fileUid: category.image.uid,
+          name: categoryData.name,
+          description: categoryData.description,
+          fileUid: categoryData.image.uid,
         },
       );
 
-      await pgHelper.commit();
+      const categoryEntity = await manager.findOne(CategoryEntity, {
+        where: { uid: categoryData.uid },
+      });
 
+      const category = this.mapToModel(categoryEntity as CategoryEntity);
+      await pgHelper.commit();
       return category;
     } catch (error) {
       await pgHelper.rollback();
@@ -111,6 +124,10 @@ export class CategoryRepository {
     await manager.delete(CategoryEntity, { uid: categoryUid });
     return this.mapToModel(categoryEntity);
   }
+
+  /**
+   * PRIVATE METHODS
+   */
 
   private mapToModel(entity: CategoryEntity): Category {
     return new Category({

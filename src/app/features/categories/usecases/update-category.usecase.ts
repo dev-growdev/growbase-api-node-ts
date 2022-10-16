@@ -1,7 +1,14 @@
-import { CategoryRepository } from '@categories/repositories/category.repository';
-import { Category, CategoryDTO } from '@models/.';
+import { CategoryRepository } from '@categories/repositories';
+import { FileDTO, CategoryDTO } from '@models/.';
 import { AwsService } from '@shared/external';
 import { Result } from '@shared/utils';
+
+export interface UpdateCategoryDTO {
+  uid: string;
+  name: string;
+  description: string;
+  image: FileDTO;
+}
 
 export class UpdateCategory {
   readonly #categoryRepository: CategoryRepository;
@@ -12,13 +19,13 @@ export class UpdateCategory {
     this.#awsService = awsService;
   }
 
-  async execute(categoryToUpdate: Category): Promise<Result<CategoryDTO>> {
-    if (!categoryToUpdate.image.uid) {
-      const key = await this.#awsService.upload(categoryToUpdate.image.url);
-      categoryToUpdate.addNewImage(key);
+  async execute(categoryData: UpdateCategoryDTO): Promise<Result<CategoryDTO>> {
+    if (!categoryData.image.uid) {
+      const key = await this.#awsService.upload(categoryData.image.url);
+      categoryData.image.url = key;
     }
 
-    const category = await this.#categoryRepository.updateCategory(categoryToUpdate);
+    const category = await this.#categoryRepository.updateCategory(categoryData);
     return Result.success(category.toJson());
   }
 }

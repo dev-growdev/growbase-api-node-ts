@@ -1,6 +1,6 @@
 import { CategoryDTO } from '@models/.';
-import { CategoryRepository } from '@categories/repositories/category.repository';
 import { Result } from '@shared/utils';
+import { CategoryRepository } from '@categories/repositories';
 
 export class DeleteCategory {
   readonly #categoryRepository: CategoryRepository;

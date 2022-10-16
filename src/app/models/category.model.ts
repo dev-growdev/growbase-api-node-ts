@@ -52,10 +52,6 @@ export class Category {
     };
   }
 
-  addNewImage(key: string) {
-    this.#image = new File({ uid: '', url: key });
-  }
-
   updateImage(uid: string, url: string) {
     this.#image = new File({ uid, url });
   }

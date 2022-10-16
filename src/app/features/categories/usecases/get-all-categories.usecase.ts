@@ -1,5 +1,5 @@
 import { CategoryDTO } from '@models/.';
-import { CategoryRepository } from '@categories/repositories/category.repository';
+import { CategoryRepository } from '@categories/repositories';
 import { Result } from '@shared/utils';
 
 export class GetAllCategories {
