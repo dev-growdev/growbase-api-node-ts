@@ -2,7 +2,7 @@ import { Contract, Notification } from '@shared/notifications';
 import { ApplicationError, Result } from '@shared/utils';
 import { NextFunction, Request, Response } from 'express';
 
-export class CreateProductValidator {
+export class CreateOrUpdateProductValidator {
   handle(request: Request, response: Response, next: NextFunction) {
     const { name, description, categories, images } = request.body;
 
