@@ -6,7 +6,7 @@ import { CategoryEntity, FileEntity } from '@shared/database/entities';
 export interface CreateOrUpdateCategoryDTO {
   uid: string;
   name: string;
-  description: string;
+  description?: string;
   image: FileDTO;
 }
 

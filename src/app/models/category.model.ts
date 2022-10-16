@@ -3,7 +3,7 @@ import { File, FileDTO } from '.';
 export interface CategoryDTO {
   uid: string;
   name: string;
-  description: string;
+  description?: string;
   enable: boolean;
   image: FileDTO;
 }
@@ -19,8 +19,8 @@ export class Category {
     return this.#name;
   }
 
-  #description: string;
-  get description(): string {
+  #description?: string;
+  get description(): string | undefined {
     return this.#description;
   }
 

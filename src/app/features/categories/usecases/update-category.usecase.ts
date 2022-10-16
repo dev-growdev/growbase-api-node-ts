@@ -6,7 +6,7 @@ import { Result } from '@shared/utils';
 export interface UpdateCategoryDTO {
   uid: string;
   name: string;
-  description: string;
+  description?: string;
   image: FileDTO;
 }
 

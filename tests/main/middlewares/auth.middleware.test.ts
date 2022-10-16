@@ -1,12 +1,12 @@
 import request from 'supertest';
 import app from '@main/config/app';
-import { auth } from '@main/middlewares';
-import { JwtAdapter } from '@shared/infra/adapters';
 import { appEnvironments } from 'app/envs';
+import { AuthMiddleware } from '@shared/middlewares';
+import { JwtAdapter } from '@shared/adapters';
 
 describe('Auth Middleware', () => {
   it('should return forbiden when token does not provided', async () => {
-    app.get('/auth_test_not_token', auth, (req: any, res) =>
+    app.get('/auth_test_not_token', new AuthMiddleware().handle, (req: any, res) =>
       res.status(200).json(req.authenticatedUser),
     );
     await request(app)
@@ -24,7 +24,7 @@ describe('Auth Middleware', () => {
   });
 
   it('should return forbiden when token is invalid format', async () => {
-    app.get('/auth_test_token_invalid_format', auth, (req: any, res) =>
+    app.get('/auth_test_token_invalid_format', new AuthMiddleware().handle, (req: any, res) =>
       res.status(200).json(req.authenticatedUser),
     );
     await request(app)
@@ -43,7 +43,7 @@ describe('Auth Middleware', () => {
   });
 
   it('should return forbiden when decrypter returns error', async () => {
-    app.get('/auth_test_decrypter_error', auth, (req: any, res) =>
+    app.get('/auth_test_decrypter_error', new AuthMiddleware().handle, (req: any, res) =>
       res.status(200).json(req.authenticatedUser),
     );
 
@@ -66,7 +66,7 @@ describe('Auth Middleware', () => {
   });
 
   it('should return status 200 when token succeeds', async () => {
-    app.get('/auth_test_succeed', auth, (req: any, res) =>
+    app.get('/auth_test_succeed', new AuthMiddleware().handle, (req: any, res) =>
       res.status(200).json(req.authenticatedUser),
     );
 

@@ -1,7 +1,6 @@
-import { HashCompareAdapter, HasherAdapter } from '@shared/adapters';
-import { BcryptAdapter } from '@shared/infra/adapters';
+import { BcryptAdapter } from '@shared/adapters';
 
-const makeSut = (): HasherAdapter & HashCompareAdapter => {
+const makeSut = (): BcryptAdapter => {
   return new BcryptAdapter(12);
 };
 

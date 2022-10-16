@@ -15,6 +15,6 @@ export class ProfileDataEntity extends EntityBase {
   @Column()
   document?: string;
 
-  @Column({ name: 'uid_file' })
-  uidFile?: string;
+  @Column({ name: 'file_uid' })
+  fileUid?: string;
 }

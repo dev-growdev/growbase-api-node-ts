@@ -1,7 +1,6 @@
-import { DecrypterAdapter, EncrypterAdapter } from '@shared/adapters';
-import { JwtAdapter } from '@shared/infra/adapters';
+import { JwtAdapter } from '@shared/adapters';
 
-const makeSut = (): EncrypterAdapter & DecrypterAdapter => {
+const makeSut = (): JwtAdapter => {
   return new JwtAdapter('jest', '5d');
 };
 

@@ -8,7 +8,7 @@ export class CategoryEntity extends EntityBase {
   name!: string;
 
   @Column()
-  description!: string;
+  description?: string;
 
   @Column()
   enable!: boolean;

@@ -16,11 +16,11 @@ export class UserEntity extends EntityBase {
   @Column()
   verified!: boolean;
 
-  @Column({ name: 'uid_profile' })
-  uidProfile!: string;
+  @Column({ name: 'profile_uid' })
+  profileUid!: string;
 
   @OneToOne(() => ProfileDataEntity)
-  @JoinColumn({ name: 'uid_profile', referencedColumnName: 'uid' })
+  @JoinColumn({ name: 'profile_uid', referencedColumnName: 'uid' })
   profileEntity?: ProfileDataEntity;
 
   get profile(): ProfileDataEntity {

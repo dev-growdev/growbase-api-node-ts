@@ -5,7 +5,7 @@ import { CategoryRepository } from '@categories/repositories';
 
 export interface CreateCategoryDTO {
   name: string;
-  description: string;
+  description?: string;
   image: FileDTO;
 }
 
