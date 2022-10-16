@@ -29,7 +29,7 @@ export class CategoryRepository {
     return this.mapToModel(category);
   }
 
-  async createCategory(categoryData: CreateOrUpdateCategoryDTO): Promise<Category> {
+  async createCategory(categoryData: Omit<CreateOrUpdateCategoryDTO, 'uid'>): Promise<Category> {
     await pgHelper.openTransaction();
 
     const manager = pgHelper.queryRunner.manager;
@@ -118,6 +118,7 @@ export class CategoryRepository {
 
     if (categoryEntity.products.length > 0) {
       await manager.update(CategoryEntity, { uid: categoryUid }, { enable: false });
+      categoryEntity.enable = false;
       return this.mapToModel(categoryEntity);
     }
 

@@ -8,8 +8,8 @@ if (process.env.NODE_ENV?.toLocaleLowerCase() === 'test') {
     type: 'postgres',
     url: process.env.TEST_DATABASE_URL,
     ssl: undefined,
-    entities: ['src/app/shared/infra/data/database/entities/**/*'],
-    migrations: ['src/app/shared/infra/data/database/migrations/**/*'],
+    entities: ['src/app/shared/database/entities/**/*'],
+    migrations: ['src/app/shared/database/migrations/**/*'],
   };
 } else {
   const isProduction = process.env.NODE_ENV?.toLocaleLowerCase() === 'production';
@@ -29,8 +29,8 @@ if (process.env.NODE_ENV?.toLocaleLowerCase() === 'test') {
     synchronize: false,
     logging: false,
     ssl,
-    entities: [rootDir + '/app/shared/infra/data/database/entities/**/*'],
-    migrations: [rootDir + '/app/shared/infra/data/database/migrations/**/*'],
+    entities: [rootDir + '/app/shared/database/entities/**/*'],
+    migrations: [rootDir + '/app/shared/database/migrations/**/*'],
   };
 }
 

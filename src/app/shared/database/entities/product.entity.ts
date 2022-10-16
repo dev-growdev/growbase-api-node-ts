@@ -1,4 +1,4 @@
-import { AppError } from '../../../../errors';
+import { AppError } from '../../errors';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import {
   CategoryEntity,

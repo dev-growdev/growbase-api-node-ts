@@ -1,5 +1,5 @@
-export const forbiddenComponent = {
-  description: 'Acesso negado',
+export const unauthorizedComponent = {
+  description: 'Precisa estar autenticado para acessar essa rota',
   content: {
     'application/json': {
       schema: {

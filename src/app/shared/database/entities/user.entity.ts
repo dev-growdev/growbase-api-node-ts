@@ -1,4 +1,4 @@
-import { AppError } from '../../../../errors';
+import { AppError } from '../../errors';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { EntityBase, ProfileDataEntity } from '.';
 

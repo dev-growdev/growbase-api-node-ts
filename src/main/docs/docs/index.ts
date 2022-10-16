@@ -1,3 +1,4 @@
-export * from './cards-path';
-export * from './customers-path';
-export * from './payments-path';
+export * from './categories-path';
+export * from './signin-path';
+export * from './signup-path';
+export * from './products-path';

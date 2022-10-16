@@ -11,5 +11,5 @@ const noCache = (_: Request, res: Response, next: NextFunction): void => {
 };
 
 export default (app: express.Application): void => {
-  app.use('/api-docs', noCache, serve, setup(swaggerConfig));
+  app.use('/docs', noCache, serve, setup(swaggerConfig));
 };

@@ -1,4 +1,3 @@
-import { Category } from '@models/.';
 import { CategoryRepository } from '@categories/repositories';
 import {
   CreateCategory,
@@ -63,13 +62,11 @@ export class CategoryController {
   async updateCategory(request: Request, response: Response) {
     try {
       const { uid } = request.params;
-      const { name, description, enable, image } = request.body;
-
-      const category = new Category({ uid, name, description, enable, image });
+      const { name, description, image } = request.body;
 
       const updateCategory = new UpdateCategory(new CategoryRepository(), new AwsService());
 
-      const result = await updateCategory.execute(category);
+      const result = await updateCategory.execute({ uid, name, description, image });
 
       if (!result.success) return notOk(response, result);
 

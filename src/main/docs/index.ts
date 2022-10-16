@@ -1,28 +1,33 @@
-import { cardsPath, customersPath, getCardPath, paymentsPath } from './docs';
+import {
+  categoriesPath,
+  categoriesWithUidPath,
+  productsPath,
+  productsWithUidPath,
+  signinPath,
+  signupPath,
+} from './docs';
 import {
   badRequestComponent,
-  forbiddenComponent,
+  unauthorizedComponent,
   notFoundComponent,
   securityComponent,
   serverErrorComponent,
 } from './components';
 import {
-  uidSchema,
-  cardParamsSchema,
+  authSchema,
+  categorySchema,
   errorSchema,
-  cardSchema,
-  customerParamsSchema,
-  customerSchema,
-  paymentParamsSchema,
-  paymentSchema,
-  chargeSchema,
+  fileSchema,
+  productSchema,
+  simpleUserSchema,
+  userSchema,
 } from './schemas';
 
 export default {
   openapi: '3.0.0',
   info: {
-    title: 'GrowPay',
-    description: 'API da Growdev para gerenciar cartões de créditos e pagamentos',
+    title: 'Growbase API',
+    description: 'Projeto base da Growdev',
     version: '1.0.0',
   },
   servers: [
@@ -31,27 +36,27 @@ export default {
     },
   ],
   paths: {
-    '/cards': cardsPath,
-    '/cards/{uid}': getCardPath,
-    '/customers': customersPath,
-    '/payments': paymentsPath,
+    '/signin': signinPath,
+    '/signup': signupPath,
+    '/categories': categoriesPath,
+    '/categories/{uid}': categoriesWithUidPath,
+    '/products': productsPath,
+    '/products/{uid}': productsWithUidPath,
   },
   schemas: {
-    uid: uidSchema,
-    cardParams: cardParamsSchema,
     error: errorSchema,
-    card: cardSchema,
-    customerParams: customerParamsSchema,
-    customer: customerSchema,
-    charge: chargeSchema,
-    paymentParams: paymentParamsSchema,
-    payment: paymentSchema,
+    category: categorySchema,
+    file: fileSchema,
+    user: userSchema,
+    simpleUser: simpleUserSchema,
+    auth: authSchema,
+    product: productSchema,
   },
   components: {
     badRequest: badRequestComponent,
     serverError: serverErrorComponent,
     notFound: notFoundComponent,
-    forbidden: forbiddenComponent,
+    unauthorized: unauthorizedComponent,
     securitySchemes: securityComponent,
   },
 };

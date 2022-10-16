@@ -4,7 +4,6 @@ import { Result } from '@shared/utils';
 import { CategoryRepository } from '@categories/repositories';
 
 export interface CreateCategoryDTO {
-  uid: string;
   name: string;
   description: string;
   image: FileDTO;
