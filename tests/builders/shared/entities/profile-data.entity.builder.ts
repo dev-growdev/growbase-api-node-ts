@@ -1,5 +1,5 @@
-import { pgHelper } from '@shared/infra/data/connections/pg-helper';
-import { ProfileDataEntity } from '@shared/infra/data/database/entities';
+import { pgHelper } from '@shared/database/connections/pg-helper';
+import { ProfileDataEntity } from '@shared/database/data/database/entities';
 
 export class ProfileDataEntityBuilder {
   #name = 'any_name';

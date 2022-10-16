@@ -1,7 +1,7 @@
 import { LogErrorDecorator } from '@main/decorators';
 import { Controller, HttpRequest, HttpResponse } from '@shared/presentation/contracts';
 import { ok, serverError } from '@shared/presentation/helpers';
-import { redisHelper } from '@shared/infra/data/connections/redis-helper';
+import { redisHelper } from '@shared/database/connections/redis-helper';
 import { Result } from '@shared/utils';
 
 jest.mock('@shared/infra/data/connections/redis-helper');

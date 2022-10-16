@@ -1,5 +1,5 @@
-import { ProfileDataEntity, UserEntity } from '@shared/infra/data/database/entities';
-import { pgHelper } from '@shared/infra/data/connections/pg-helper';
+import { ProfileDataEntity, UserEntity } from '@shared/database/data/database/entities';
+import { pgHelper } from '@shared/database/connections/pg-helper';
 import { CheckUserByLoginRepository } from '@authentication/domain/contracts';
 import { AccountRepository } from '@authentication/infra/data/repositories';
 import { ProfileDataEntityBuilder, UserEntityBuilder } from '@builders/shared';

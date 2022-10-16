@@ -1,8 +1,8 @@
 import { ExampleDTOBuilder } from '@builders/example';
 import { CreateExampleRepository } from '@example/domain/contracts/repositories';
-import { pgHelper } from '@shared/infra/data/connections/pg-helper';
+import { pgHelper } from '@shared/database/connections/pg-helper';
 import { ExampleRepository } from '@example/infra/data/repositories';
-import { ExampleEntity } from '@shared/infra/data/database/entities';
+import { ExampleEntity } from '@shared/database/data/database/entities';
 
 const makeSut = (): CreateExampleRepository => {
   return new ExampleRepository();

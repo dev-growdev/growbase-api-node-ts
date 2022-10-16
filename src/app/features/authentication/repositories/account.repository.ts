@@ -1,6 +1,6 @@
-import { ProfileDataEntity, UserEntity } from '@shared/infra/data/database/entities';
-import { pgHelper } from '@shared/infra/data/connections/pg-helper';
+import { pgHelper } from '@shared/database/connections/pg-helper';
 import { User, CredentialUser } from '@models/.';
+import { ProfileDataEntity, UserEntity } from '@shared/database/entities';
 
 interface AccountDTO {
   name: string;

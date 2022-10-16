@@ -1,6 +1,6 @@
 import { CategoryDTO, FileDTO, Product, SimpleUserDTO } from '@models/.';
 import { AppError } from '@shared/errors';
-import { pgHelper } from '@shared/infra/data/connections/pg-helper';
+import { pgHelper } from '@shared/database/connections/pg-helper';
 import {
   CategoryEntity,
   FileEntity,
@@ -8,7 +8,7 @@ import {
   ProductEntity,
   ProductFileEntity,
   UserEntity,
-} from '@shared/infra/data/database/entities';
+} from '@shared/database/entities';
 
 interface CreateProductDTO {
   name: string;

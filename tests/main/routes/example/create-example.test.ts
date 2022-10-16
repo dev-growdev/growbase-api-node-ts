@@ -1,8 +1,8 @@
 import request from 'supertest';
 import { ExampleDTOBuilder } from '@builders/example';
 import { CreateExampleImp } from '@example/domain/usecases';
-import { pgHelper } from '@shared/infra/data/connections/pg-helper';
-import { ExampleEntity } from '@shared/infra/data/database/entities';
+import { pgHelper } from '@shared/database/connections/pg-helper';
+import { ExampleEntity } from '@shared/database/data/database/entities';
 import app from '@main/config/app';
 
 const makeRequest = () => ExampleDTOBuilder.init().builder();

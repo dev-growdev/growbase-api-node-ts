@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
-import { pgHelper as sut } from '@shared/infra/data/connections/pg-helper';
-import { UserEntity } from '@shared/infra/data/database/entities';
+import { pgHelper as sut } from '@shared/database/connections/pg-helper';
+import { UserEntity } from '@shared/database/data/database/entities';
 
 describe('Pg Helper Connection', () => {
   it('should open and close the connection', async () => {

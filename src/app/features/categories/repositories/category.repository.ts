@@ -1,7 +1,7 @@
 import { Category, FileDTO } from '@models/.';
 import { AppError } from '@shared/errors';
-import { pgHelper } from '@shared/infra/data/connections/pg-helper';
-import { CategoryEntity, FileEntity } from '@shared/infra/data/database/entities';
+import { pgHelper } from '@shared/database/connections/pg-helper';
+import { CategoryEntity, FileEntity } from '@shared/database/entities';
 
 export interface CreateOrUpdateCategoryDTO {
   uid: string;

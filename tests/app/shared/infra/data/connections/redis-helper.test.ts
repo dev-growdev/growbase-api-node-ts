@@ -1,4 +1,4 @@
-import { redisHelper as sut } from '@shared/infra/data/connections/redis-helper';
+import { redisHelper as sut } from '@shared/database/connections/redis-helper';
 
 jest.mock('ioredis', () => require('ioredis-mock/jest'));
 
