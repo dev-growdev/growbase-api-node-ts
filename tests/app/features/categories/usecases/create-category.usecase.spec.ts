@@ -35,7 +35,7 @@ const makeSut = (): SutTypes => {
 
 describe('CreateCategory usecase', () => {
   afterEach(() => {
-    jest.resetAllMocks();
+    jest.restoreAllMocks();
   });
 
   it('should call CategoryRepository.createCategory and AwsService.upload with correct value', async () => {

@@ -16,7 +16,7 @@ const makeSut = (): SutTypes => {
 
 describe('GetCategoryByUid usecase', () => {
   afterEach(() => {
-    jest.resetAllMocks();
+    jest.restoreAllMocks();
   });
 
   it('should call CategoryRepository.getCategoryByUid', async () => {

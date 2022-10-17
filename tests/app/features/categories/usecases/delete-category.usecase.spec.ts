@@ -16,7 +16,7 @@ const makeSut = (): SutTypes => {
 
 describe('DeleteCategory usecase', () => {
   afterEach(() => {
-    jest.resetAllMocks();
+    jest.restoreAllMocks();
   });
 
   it('should call CategoryRepository.deleteCategory', async () => {

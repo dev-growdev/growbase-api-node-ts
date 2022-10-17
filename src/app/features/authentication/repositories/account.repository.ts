@@ -66,7 +66,7 @@ export class AccountRepository {
         password,
         enable: true,
         verified: false,
-        uidProfile: profileEntity.uid,
+        profileUid: profileEntity.uid,
       });
 
       await manager.save(userEntity);

@@ -1,6 +1,6 @@
 import request from 'supertest';
 import app from '@main/config/app';
-import { appEnvironments } from 'app/envs';
+import { appEnvironments } from '@envs/.';
 import { AuthMiddleware } from '@shared/middlewares';
 import { JwtAdapter } from '@shared/adapters';
 
@@ -12,9 +12,9 @@ describe('Auth Middleware', () => {
     await request(app)
       .get('/auth_test_not_token')
       .send()
-      .expect(403, {
+      .expect(401, {
         success: false,
-        code: 403,
+        code: 401,
         error: {
           process: 'handle -> AuthMiddleware',
           message: 'Acesso negado',
@@ -31,9 +31,9 @@ describe('Auth Middleware', () => {
       .get('/auth_test_token_invalid_format')
       .set('Authorization', 'any_token')
       .send()
-      .expect(403, {
+      .expect(401, {
         success: false,
-        code: 403,
+        code: 401,
         error: {
           process: 'handle -> AuthMiddleware',
           message: 'Acesso negado',
@@ -54,9 +54,9 @@ describe('Auth Middleware', () => {
       .get('/auth_test_decrypter_error')
       .set('Authorization', `Bearer ${token}`)
       .send()
-      .expect(403, {
+      .expect(401, {
         success: false,
-        code: 403,
+        code: 401,
         error: {
           process: 'handle -> AuthMiddleware',
           message: 'Acesso negado',
@@ -67,7 +67,7 @@ describe('Auth Middleware', () => {
 
   it('should return status 200 when token succeeds', async () => {
     app.get('/auth_test_succeed', new AuthMiddleware().handle, (req: any, res) =>
-      res.status(200).json(req.authenticatedUser),
+      res.status(200).json(req.authUser),
     );
 
     const jwt = new JwtAdapter(appEnvironments.JWT_SECRET, '5d');
