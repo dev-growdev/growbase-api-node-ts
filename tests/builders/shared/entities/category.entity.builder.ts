@@ -13,6 +13,11 @@ export class CategoryEntityBuilder {
     return builder;
   }
 
+  withDescription(description: string): CategoryEntityBuilder {
+    this.#description = description;
+    return this;
+  }
+
   async builder(): Promise<CategoryEntity> {
     const manager = pgHelper.client.manager;
 

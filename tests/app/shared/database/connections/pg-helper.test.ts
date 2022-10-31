@@ -43,8 +43,6 @@ describe('Pg Helper Connection', () => {
   });
 
   it('should open and close transaction throws errors', async () => {
-    await sut.connect();
-
     await expect(sut.commit()).rejects.toThrowError('Transaction not opened');
 
     await expect(sut.rollback()).rejects.toThrowError('Transaction not opened');

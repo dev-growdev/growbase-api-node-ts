@@ -1,7 +1,12 @@
 import request from 'supertest';
 import app from '@main/config/app';
 import { pgHelper } from '@shared/database/connections/pg-helper';
-import { CategoryEntity, ProfileDataEntity, UserEntity } from '@shared/database/entities';
+import {
+  CategoryEntity,
+  FileEntity,
+  ProfileDataEntity,
+  UserEntity,
+} from '@shared/database/entities';
 import { CategoryDTO } from '@models/.';
 import { ProfileDataEntityBuilder, UserEntityBuilder } from '@builders/shared';
 import { JwtAdapter } from '@shared/adapters';
@@ -40,6 +45,7 @@ describe('POST /categories', () => {
     await pgHelper.client.manager.delete(CategoryEntity, {});
     await pgHelper.client.manager.delete(UserEntity, {});
     await pgHelper.client.manager.delete(ProfileDataEntity, {});
+    await pgHelper.client.manager.delete(FileEntity, {});
     await pgHelper.disconnect();
   });
 
