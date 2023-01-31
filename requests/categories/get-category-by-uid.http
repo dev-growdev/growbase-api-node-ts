@@ -1,0 +1,6 @@
+@HOST = http://localhost:8080/api
+
+get {{HOST}}/categories/c2dca065-d9ba-491d-9f3b-f1200a5d3098 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyVWlkIjoiMDc1YTg4NmUtNTcwMy00NzZjLWI0NmItZTkwMTQ2ZTU1YjQ3IiwicHJvZmlsZVVpZCI6Ijk1NjczZmFjLWYwOTgtNDRhNC1hZTYxLTkxNmYwMTBlYjk4ZiIsImlhdCI6MTY2NTk0NzY0MiwiZXhwIjoxNjY2MDM0MDQyfQ.qDaQSo8saCg8hO9RyYMW-fNlCH7qxtArRdrBmfsLTZs
+

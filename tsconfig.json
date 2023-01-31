@@ -47,10 +47,13 @@
     "moduleResolution": "node",                  /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
     "baseUrl": "src",                             /* Base directory to resolve non-absolute module names. */
     "paths": {
-      "@main/*": ["main/*"],
       "@shared/*": ["app/shared/*"],
+      "@main/*": ["main/*"],
+      "@envs/*": ["app/envs/*"],
+      "@models/*": ["app/models/*"],
       "@authentication/*": ["app/features/authentication/*"],
-      "@example/*": ["app/features/example/*"],
+      "@categories/*": ["app/features/categories/*"],
+      "@products/*": ["app/features/products/*"],
       "@builders/*": ["../tests/builders/*"]
     },                                 /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
     "rootDirs": [

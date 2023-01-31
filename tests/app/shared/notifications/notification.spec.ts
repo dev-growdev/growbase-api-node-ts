@@ -1,17 +1,15 @@
 import { Contract, Notification } from '@shared/notifications';
 
-class TestNotification extends Notification {}
-
 describe('Notification', () => {
   it('should be valid', () => {
-    const notification = new TestNotification();
+    const notification = new Notification();
 
     expect(notification.notifications).toHaveLength(0);
     expect(notification.isValid).toBeTruthy();
   });
 
   it('should add a notification and should be invalid', () => {
-    const notification = new TestNotification();
+    const notification = new Notification();
 
     notification.addNotification('teste', 'TESTE_ADD');
 
@@ -20,7 +18,7 @@ describe('Notification', () => {
   });
 
   it('should add two notifications and should be invalid', () => {
-    const notification = new TestNotification();
+    const notification = new Notification();
     const notifications = new Contract()
       .isRequired(undefined, 'teste')
       .isRequired(undefined, 'teste2');

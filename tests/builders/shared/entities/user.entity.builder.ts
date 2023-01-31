@@ -1,32 +1,32 @@
-import { pgHelper } from '@shared/infra/data/connections/pg-helper';
-import { UserEntity } from '@shared/infra/data/database/entities';
+import { pgHelper } from '@shared/database/connections/pg-helper';
+import { UserEntity } from '@shared/database/entities';
 
 export class UserEntityBuilder {
   #password = '123456';
   #enable = true;
   #verified = true;
   #login!: string;
-  #uidProfile!: string;
+  #profileUid!: string;
 
-  static init(uidProfile: string, login: string): UserEntityBuilder {
+  static init(profileUid: string, login: string): UserEntityBuilder {
     const builder = new UserEntityBuilder();
-    builder.#uidProfile = uidProfile;
+    builder.#profileUid = profileUid;
     builder.#login = login;
     return builder;
   }
 
   async builder(): Promise<UserEntity> {
-    const repository = await pgHelper.getRepository(UserEntity);
+    const manager = pgHelper.client.manager;
 
-    const user = repository.create({
+    const user = manager.create(UserEntity, {
       login: this.#login,
       enable: this.#enable,
       password: this.#password,
       verified: this.#verified,
-      uidProfile: this.#uidProfile,
+      profileUid: this.#profileUid,
     });
 
-    await repository.save(user);
+    await manager.save(user);
 
     return user;
   }

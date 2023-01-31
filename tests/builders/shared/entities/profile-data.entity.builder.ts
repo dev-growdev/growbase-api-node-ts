@@ -1,12 +1,12 @@
-import { pgHelper } from '@shared/infra/data/connections/pg-helper';
-import { ProfileDataEntity } from '@shared/infra/data/database/entities';
+import { pgHelper } from '@shared/database/connections/pg-helper';
+import { ProfileDataEntity } from '@shared/database/entities';
 
 export class ProfileDataEntityBuilder {
   #name = 'any_name';
   #email = 'any@email.com.br';
   #document = '56520319058';
   #phone?: string;
-  #uidFile?: string;
+  #fileUid?: string;
 
   static init(): ProfileDataEntityBuilder {
     return new ProfileDataEntityBuilder();
@@ -20,17 +20,17 @@ export class ProfileDataEntityBuilder {
   }
 
   async builder(): Promise<ProfileDataEntity> {
-    const repository = await pgHelper.getRepository(ProfileDataEntity);
+    const manager = pgHelper.client.manager;
 
-    const dataProfile = repository.create({
+    const dataProfile = manager.create(ProfileDataEntity, {
       name: this.#name,
       email: this.#email,
       document: this.#document,
       phone: this.#phone,
-      uidFile: this.#uidFile,
+      fileUid: this.#fileUid,
     });
 
-    await repository.save(dataProfile);
+    await manager.save(dataProfile);
 
     return dataProfile;
   }

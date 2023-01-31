@@ -1,0 +1,30 @@
+@HOST = http://localhost:8080/api
+
+PUT {{HOST}}/products/1773a7cd-ae3e-42b2-9b5a-bcb3cb693ccf HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyVWlkIjoiMDc1YTg4NmUtNTcwMy00NzZjLWI0NmItZTkwMTQ2ZTU1YjQ3IiwicHJvZmlsZVVpZCI6Ijk1NjczZmFjLWYwOTgtNDRhNC1hZTYxLTkxNmYwMTBlYjk4ZiIsImlhdCI6MTY2NTg3MzQzMCwiZXhwIjoxNjY1OTU5ODMwfQ.pmuPFqN56bxCK-1mzHFketKyurWVi2EjcpjwrdkcVFw
+
+{
+  "name": "Produto atualizado",
+  "description": "Descricao atualizado 2",
+  "categories": [
+    {
+      "uid": "f9eaff29-c623-4a2f-b4c0-f39e1b98018a",
+      "name": "Bebidas"
+    },
+    {
+      "uid": "7870eec1-4d0f-47f9-a394-136e38c7bc59",
+      "name": "Frutas"
+    }
+  ],
+  "images": [
+    {
+      "url": "any_url",
+      "isMain": true
+    },
+    {
+      "url": "any_url",
+      "isMain": false
+    }
+  ]
+}

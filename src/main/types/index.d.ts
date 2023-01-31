@@ -1,5 +1,8 @@
 declare namespace Express {
   interface Request {
-    authenticatedUser: any;
+    authUser: {
+      userUid: string;
+      profileUid: string;
+    };
   }
 }

@@ -1,0 +1,22 @@
+@HOST = http://localhost:8080/api
+
+POST {{HOST}}/products HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyVWlkIjoiMDc1YTg4NmUtNTcwMy00NzZjLWI0NmItZTkwMTQ2ZTU1YjQ3IiwicHJvZmlsZVVpZCI6Ijk1NjczZmFjLWYwOTgtNDRhNC1hZTYxLTkxNmYwMTBlYjk4ZiIsImlhdCI6MTY2NTg3MzQzMCwiZXhwIjoxNjY1OTU5ODMwfQ.pmuPFqN56bxCK-1mzHFketKyurWVi2EjcpjwrdkcVFw
+
+{
+  "name": "Coca-cola",
+  "description": "coca-cola",
+  "categories": [
+    {
+      "uid": "f9eaff29-c623-4a2f-b4c0-f39e1b98018a",
+      "name": "Bebidas"
+    }
+  ],
+  "images": [
+    {
+      "url": "any_url",
+      "isMain": false
+    }
+  ]
+}
