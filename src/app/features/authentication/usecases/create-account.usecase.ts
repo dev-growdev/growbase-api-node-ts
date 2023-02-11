@@ -3,6 +3,7 @@ import { UserDTO } from '@models/.';
 import { BcryptAdapter } from '@shared/adapters';
 import { AppError } from '@shared/errors';
 import { Result } from '@shared/utils';
+import { ActiveAccount } from './';
 
 interface AccountDTO {
   name: string;
@@ -14,10 +15,16 @@ interface AccountDTO {
 export class CreateAccount {
   readonly #accountRepository: AccountRepository;
   readonly #encrypter: BcryptAdapter;
+  readonly #activeAccount: ActiveAccount;
 
-  constructor(accountRepository: AccountRepository, encrypter: BcryptAdapter) {
+  constructor(
+    accountRepository: AccountRepository,
+    encrypter: BcryptAdapter,
+    activeAccount: ActiveAccount,
+  ) {
     this.#accountRepository = accountRepository;
     this.#encrypter = encrypter;
+    this.#activeAccount = activeAccount;
   }
 
   async execute({ name, password, document, email }: AccountDTO): Promise<Result<UserDTO>> {
@@ -33,6 +40,8 @@ export class CreateAccount {
       name,
       password: cipherPassword,
     });
+
+    await this.#activeAccount.execute(email, user.userUid);
 
     return Result.success(user.toJson());
   }
