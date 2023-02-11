@@ -87,4 +87,12 @@ export class AccountRepository {
       throw error;
     }
   }
+
+  async verifyAccount(userUid: string): Promise<void> {
+    const manager = pgHelper.client.manager;
+
+    await manager.update(UserEntity, { uid: userUid }, { verified: true });
+
+    return;
+  }
 }
