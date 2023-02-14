@@ -1,6 +1,11 @@
 import { pgHelper } from '@shared/database/connections/pg-helper';
 import { User, CredentialUser } from '@models/.';
-import { ProfileDataEntity, UserEntity } from '@shared/database/entities';
+import {
+  ProfileDataEntity,
+  RoleEntity,
+  UserEntity,
+  UserRoleEntity,
+} from '@shared/database/entities';
 import { AccountDTO } from '@account/dtos';
 
 export class AccountRepository {
@@ -9,7 +14,7 @@ export class AccountRepository {
 
     const userEntity = await manager.findOne(UserEntity, {
       where: { login },
-      relations: ['profileEntity'],
+      relations: ['profileEntity', 'userRoleEntity'],
     });
 
     if (!userEntity) return undefined;
@@ -17,6 +22,7 @@ export class AccountRepository {
     const user = new User({
       userUid: userEntity.uid,
       profileUid: userEntity.profile.uid,
+      userRoleUid: userEntity.userRole.uid,
       name: userEntity.profile.name,
       email: userEntity.profile.email,
       document: userEntity.profile.document,
@@ -46,6 +52,8 @@ export class AccountRepository {
     try {
       const manager = pgHelper.queryRunner.manager;
 
+      const role = await manager.findOne(RoleEntity, { where: { type: 1 } });
+
       // cria usuário
       const profileEntity = manager.create(ProfileDataEntity, {
         name,
@@ -65,10 +73,19 @@ export class AccountRepository {
 
       await manager.save(userEntity);
 
+      const userRole = manager.create(UserRoleEntity, {
+        userUid: userEntity.uid,
+        roleUid: role?.uid,
+        actions: '{}',
+      });
+
+      await manager.save(userRole);
+
       await pgHelper.commit();
 
       const user = new User({
         userUid: userEntity.uid,
+        userRoleUid: userRole.uid,
         profileUid: profileEntity.uid,
         name: profileEntity.name,
         email: profileEntity.email,

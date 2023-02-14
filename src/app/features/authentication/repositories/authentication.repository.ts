@@ -8,7 +8,7 @@ export class AuthenticationRepository {
 
     const userEntity = await manager.findOne(UserEntity, {
       where: { login },
-      relations: ['profileEntity'],
+      relations: ['profileEntity', 'userRoleEntity'],
     });
 
     if (!userEntity) return undefined;
@@ -16,6 +16,7 @@ export class AuthenticationRepository {
     const user = new User({
       userUid: userEntity.uid,
       profileUid: userEntity.profile.uid,
+      userRoleUid: userEntity.userRole.uid,
       name: userEntity.profile.name,
       email: userEntity.profile.email,
       document: userEntity.profile.document,
