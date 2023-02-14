@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { AccountRepository } from '@authentication/repositories';
-import { ActiveAccount, CreateAccount } from '@authentication/usecases';
+import { AccountRepository } from '@account/repositories';
+import { ActiveAccount, CreateAccount } from '@account/usecases';
 import { BcryptAdapter } from '@shared/adapters';
 import { appEnvironments } from '@envs/.';
 import { notOk, ok, serverError } from '@shared/utils';

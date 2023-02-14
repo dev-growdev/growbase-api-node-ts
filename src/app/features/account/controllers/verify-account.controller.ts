@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { VerifyAccount } from '@authentication/usecases';
+import { VerifyAccount } from '@account/usecases';
 import { notOk, ok, serverError } from '@shared/utils';
 import { RedisRepository } from '@shared/database/cache/redis.repository';
-import { AccountRepository } from '@authentication/repositories';
+import { AccountRepository } from '@account/repositories';
 
 export class VerifyAccountController {
   async verifyAccount(request: Request, response: Response) {

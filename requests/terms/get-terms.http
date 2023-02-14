@@ -1,0 +1,5 @@
+@HOST = http://localhost:8080/api
+
+GET {{HOST}}/terms?title=Term HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyVWlkIjoiYmZhNDQ4NzYtNTdiOS00OGEwLTkwNGMtNzJkZWQzNThmMGNjIiwicHJvZmlsZVVpZCI6ImNjNzliYWEwLWIwZTItNDY4Ni1iM2VkLTVhY2E5NTRlMzY0NyIsImlhdCI6MTY3NjM5NDMzMywiZXhwIjoxNjc2NDgwNzMzfQ.-tKqkgb0BUERYDqq0rSQ8YvGA3G5Akp85o7ekD8A1XQ

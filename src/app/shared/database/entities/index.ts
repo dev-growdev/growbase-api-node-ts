@@ -6,3 +6,4 @@ export * from './product.entity';
 export * from './product-category.entity';
 export * from './file.entity';
 export * from './product-file.entity';
+export * from './term.entity';

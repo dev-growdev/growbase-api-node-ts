@@ -1,12 +1,8 @@
-import { AccountRepository } from '@authentication/repositories';
+import { CheckCodeDTO } from '@account/dtos';
+import { AccountRepository } from '@account/repositories';
 import { RedisRepository } from '@shared/database/cache/redis.repository';
 import { AppError } from '@shared/errors';
 import { Result } from '@shared/utils';
-
-interface CheckCodeDTO {
-  code: string;
-  email: string;
-}
 
 export class VerifyAccount {
   readonly #cache: RedisRepository;

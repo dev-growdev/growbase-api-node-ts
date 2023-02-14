@@ -1,16 +1,10 @@
-import { AccountRepository } from '@authentication/repositories';
+import { AccountDTO } from '@account/dtos';
+import { AccountRepository } from '@account/repositories';
 import { UserDTO } from '@models/.';
 import { BcryptAdapter } from '@shared/adapters';
 import { AppError } from '@shared/errors';
 import { Result } from '@shared/utils';
 import { ActiveAccount } from './';
-
-interface AccountDTO {
-  name: string;
-  email: string;
-  document: string;
-  password: string;
-}
 
 export class CreateAccount {
   readonly #accountRepository: AccountRepository;

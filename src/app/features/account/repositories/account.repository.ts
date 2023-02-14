@@ -1,13 +1,7 @@
 import { pgHelper } from '@shared/database/connections/pg-helper';
 import { User, CredentialUser } from '@models/.';
 import { ProfileDataEntity, UserEntity } from '@shared/database/entities';
-
-interface AccountDTO {
-  name: string;
-  email: string;
-  document: string;
-  password: string;
-}
+import { AccountDTO } from '@account/dtos';
 
 export class AccountRepository {
   async loadUserByLogin(login: string): Promise<User | undefined> {
@@ -92,6 +86,40 @@ export class AccountRepository {
     const manager = pgHelper.client.manager;
 
     await manager.update(UserEntity, { uid: userUid }, { verified: true });
+
+    return;
+  }
+
+  async updatePassword(password: string, userUid: string): Promise<void> {
+    const manager = pgHelper.client.manager;
+
+    await manager.update(UserEntity, { uid: userUid }, { password });
+
+    return;
+  }
+
+  async updateProfile(dto: Partial<AccountDTO>, userUid: string): Promise<void> {
+    const manager = pgHelper.client.manager;
+
+    const user = await manager.findOne(UserEntity, { where: { uid: userUid } });
+
+    await manager.update(
+      UserEntity,
+      { uid: userUid },
+      {
+        login: dto.email,
+      },
+    );
+
+    await manager.update(
+      ProfileDataEntity,
+      { uid: user?.profileUid },
+      {
+        name: dto.name,
+        email: dto.email,
+        phone: dto.phone,
+      },
+    );
 
     return;
   }
