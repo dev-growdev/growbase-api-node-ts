@@ -9,3 +9,4 @@ export * from './product-file.entity';
 export * from './term.entity';
 export * from './role.entity';
 export * from './user-role.entity';
+export * from './faq.entity';

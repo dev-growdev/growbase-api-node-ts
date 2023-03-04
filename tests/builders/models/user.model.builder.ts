@@ -7,6 +7,7 @@ export class UserBuilder {
   #email = 'any@email.com';
   #document = '56520319058';
   #credential?: CredentialUser;
+  #userRoleUid = 'any_uid';
 
   static init(): UserBuilder {
     return new UserBuilder();
@@ -21,6 +22,7 @@ export class UserBuilder {
     const user = new User({
       userUid: this.#userUid,
       profileUid: this.#profileUid,
+      userRoleUid: this.#userRoleUid,
       name: this.#name,
       email: this.#email,
       document: this.#document,

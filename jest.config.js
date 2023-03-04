@@ -90,6 +90,7 @@ module.exports = {
     '@authentication/(.*)': '<rootDir>/src/app/features/authentication/$1',
     '@account/(.*)': '<rootDir>/src/app/features/account/$1',
     '@terms/(.*)': '<rootDir>/src/app/features/terms/$1',
+    '@faqs/(.*)': '<rootDir>/src/app/features/faqs/$1',
     '@categories/(.*)': '<rootDir>/src/app/features/categories/$1',
     '@products/(.*)': '<rootDir>/src/app/features/products/$1',
     '@builders/(.*)': '<rootDir>/tests/builders/$1',
