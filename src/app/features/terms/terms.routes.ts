@@ -9,5 +9,5 @@ export default (router: express.Router): void => {
   const auth = new AuthMiddleware();
 
   router.post('/terms', auth.handle, createOrUpdateCategoryValidator.handle, controller.createTerm);
-  router.get('/terms', auth.handle, controller.getTerm);
+  router.get('/terms', controller.getTerm);
 };
