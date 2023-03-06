@@ -1,29 +1,29 @@
-import { AccountRepository } from '@account/repositories';
 import { BcryptAdapter } from '@shared/adapters';
 import { RedisRepository } from '@shared/database/cache/redis.repository';
 import { EmailData, GmailService } from '@shared/external';
+import { LoadUserByLoginOrUidRepository } from '@shared/repositories';
 import { ApplicationError, Result } from '@shared/utils';
 
 export class ResetPassword {
   readonly #cache: RedisRepository;
   readonly #emailService: GmailService;
   readonly #encrypter: BcryptAdapter;
-  readonly #accountRepository: AccountRepository;
+  readonly #loadUserByLoginOrUidRepository: LoadUserByLoginOrUidRepository;
 
   constructor(
     encrypter: BcryptAdapter,
     emailService: GmailService,
     cache: RedisRepository,
-    accountRepository: AccountRepository,
+    loadUserByLoginOrUidRepository: LoadUserByLoginOrUidRepository,
   ) {
     this.#cache = cache;
     this.#emailService = emailService;
     this.#encrypter = encrypter;
-    this.#accountRepository = accountRepository;
+    this.#loadUserByLoginOrUidRepository = loadUserByLoginOrUidRepository;
   }
 
   async execute(email: string): Promise<Result<void>> {
-    const user = await this.#accountRepository.loadUserByLogin(email);
+    const user = await this.#loadUserByLoginOrUidRepository.loadUser({ login: email });
 
     if (!user) {
       return Result.error(

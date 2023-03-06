@@ -5,7 +5,7 @@ import { RedisRepository } from '@shared/database/cache/redis.repository';
 import { BcryptAdapter } from '@shared/adapters';
 import { appEnvironments } from '@envs/app.env';
 import { ResetPassword } from '@account/usecases';
-import { AccountRepository } from '@account/repositories';
+import { LoadUserByLoginOrUidRepository } from '@shared/repositories';
 
 export class ResetPasswordController {
   async resetPassword(request: Request, response: Response) {
@@ -14,13 +14,13 @@ export class ResetPasswordController {
       const bcrypt = new BcryptAdapter(appEnvironments.BCRYPT_SALT);
       const emailService = new GmailService();
       const redisRepository = new RedisRepository();
-      const accountRepository = new AccountRepository();
+      const loadUserByLoginOrUidRepository = new LoadUserByLoginOrUidRepository();
 
       const resetPassword = new ResetPassword(
         bcrypt,
         emailService,
         redisRepository,
-        accountRepository,
+        loadUserByLoginOrUidRepository,
       );
 
       const result = await resetPassword.execute(email as string);
