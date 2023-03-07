@@ -52,6 +52,9 @@
       "@envs/*": ["app/envs/*"],
       "@models/*": ["app/models/*"],
       "@authentication/*": ["app/features/authentication/*"],
+      "@account/*": ["app/features/account/*"],
+      "@terms/*": ["app/features/terms/*"],
+      "@faqs/*": ["app/features/faqs/*"],
       "@categories/*": ["app/features/categories/*"],
       "@products/*": ["app/features/products/*"],
       "@builders/*": ["../tests/builders/*"]

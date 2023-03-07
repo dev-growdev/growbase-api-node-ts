@@ -1,6 +1,6 @@
 import { JwtAdapter, BcryptAdapter } from '@shared/adapters';
 import { ApplicationError, Result } from '@shared/utils';
-import { AccountRepository } from '@authentication/repositories';
+import { LoadUserByLoginOrUidRepository } from '@shared/repositories';
 import { AppError } from '@shared/errors';
 import { CredentialUser, UserDTO } from '@models/.';
 
@@ -15,18 +15,22 @@ interface AuthDTO {
 }
 
 export class SignIn {
-  readonly #accountRepository: AccountRepository;
+  readonly #repository: LoadUserByLoginOrUidRepository;
   readonly #jwt: JwtAdapter;
   readonly #encrypter: BcryptAdapter;
 
-  constructor(accountRepository: AccountRepository, jwt: JwtAdapter, encrypter: BcryptAdapter) {
-    this.#accountRepository = accountRepository;
+  constructor(
+    repository: LoadUserByLoginOrUidRepository,
+    jwt: JwtAdapter,
+    encrypter: BcryptAdapter,
+  ) {
+    this.#repository = repository;
     this.#jwt = jwt;
     this.#encrypter = encrypter;
   }
 
   async execute({ login, password }: AuthDTO): Promise<Result<Response>> {
-    const user = await this.#accountRepository.loadUserByLogin(login);
+    const user = await this.#repository.loadUser({ login });
 
     if (!user) {
       return Result.error(

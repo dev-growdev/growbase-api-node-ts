@@ -1,8 +1,11 @@
+import { AuthMiddleware } from '@shared/middlewares';
 import express from 'express';
-import { SignInController, SignUpController } from './controllers';
-import { SignInValidator, SignUpValidator } from './validators';
+import { AuthUserController, SignInController } from './controllers';
+import { SignInValidator } from './validators';
 
 export default (router: express.Router): void => {
-  router.post('/signup', new SignUpValidator().handle, new SignUpController().signUp);
+  const auth = new AuthMiddleware();
+
   router.post('/signin', new SignInValidator().handle, new SignInController().signIn);
+  router.get('/auth', auth.handle, new AuthUserController().authUser);
 };

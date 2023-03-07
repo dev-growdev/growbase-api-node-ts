@@ -9,5 +9,8 @@ addAlias('@envs', resolve(rootDir, 'app/envs'));
 addAlias('@models', resolve(rootDir, 'app/models'));
 addAlias('@shared', resolve(rootDir, 'app/shared'));
 addAlias('@authentication', resolve(rootDir, 'app/features/authentication'));
+addAlias('@account', resolve(rootDir, 'app/features/account'));
+addAlias('@terms', resolve(rootDir, 'app/features/terms'));
+addAlias('@faqs', resolve(rootDir, 'app/features/faqs'));
 addAlias('@categories', resolve(rootDir, 'app/features/categories'));
 addAlias('@products', resolve(rootDir, 'app/features/products'));

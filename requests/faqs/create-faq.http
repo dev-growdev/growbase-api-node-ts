@@ -1,0 +1,10 @@
+@HOST = http://localhost:8080/api
+
+POST {{HOST}}/faqs HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyVWlkIjoiMWVkMjU3YTQtMDhiZi00NjE2LWJlMmEtNTE2OTNjMWMxZWY5IiwicHJvZmlsZVVpZCI6IjhmMjE0Mzc1LWMwOTktNDk1OS04YjA4LTJiZjhhMTNhOTA2OSIsImlhdCI6MTY3Nzg3NDY1MiwiZXhwIjoxNjc3OTYxMDUyfQ.2aDgnkb13_VKDbtDo_68lavIdIIxtk-4DOcV2G8hFO0
+
+{
+  "question": "Pergunta",
+  "answer": "Resposta"
+}

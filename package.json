@@ -8,6 +8,7 @@
     "dev": "cross-env NODE_ENV=development ts-node-dev --respawn --transpile-only src/main/server.ts",
     "dev:debug": "cross-env NODE_ENV=development ts-node-dev --inspect=0.0.0.0:9229 --respawn --transpile-only src/main/server.ts",
     "build": "yarn rimraf dist && yarn tsc -p tsconfig-build.json",
+    "postbuild": "yarn compile:views",
     "start": "cross-env NODE_ENV=production node dist/main/server.js",
     "test:setup": "yarn migration:revert:all && yarn migration:run:test",
     "test": "yarn test:setup && cross-env NODE_ENV=test jest --passWithNoTests --silent --noStackTrace --runInBand --detectOpenHandles",
@@ -23,7 +24,8 @@
     "migration:revert": "yarn ts-node-dev ./node_modules/typeorm/cli.js migration:revert -d ./src/main/database/typeorm.ts",
     "migration:revert:all": "cross-env NODE_ENV=test yarn ts-node-dev revert-all-migrations.ts",
     "migration:run:test": "cross-env NODE_ENV=test yarn ts-node-dev ./node_modules/typeorm/cli.js migration:run -d ./src/main/database/typeorm.ts",
-    "migration:create": "yarn typeorm migration:create src/app/shared/infra/data/database/migrations/CreateTableNiches"
+    "migration:create": "yarn typeorm migration:create src/app/shared/infra/data/database/migrations/CreateTableNiches",
+    "compile:views": "cp -rv ./src/app/shared/presentation/views ./dist/app/shared/presentation/views"
   },
   "keywords": [],
   "author": "",
@@ -60,6 +62,8 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.188.0",
     "@aws-sdk/s3-request-presigner": "^3.188.0",
+    "@types/nodemailer": "^6.4.7",
+    "@types/nodemailer-express-handlebars": "^4.0.2",
     "axios": "^0.21.1",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
@@ -70,6 +74,8 @@
     "ioredis": "^4.28.0",
     "jsonwebtoken": "^8.5.1",
     "module-alias": "^2.2.2",
+    "nodemailer": "^6.9.1",
+    "nodemailer-express-handlebars": "^6.0.0",
     "pg": "^8.6.0",
     "reflect-metadata": "^0.1.13",
     "swagger-ui-express": "^4.1.6",

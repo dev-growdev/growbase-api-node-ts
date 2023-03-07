@@ -1,0 +1,11 @@
+@HOST = http://localhost:8080/api
+
+PUT {{HOST}}/account/profile HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyVWlkIjoiYmZhNDQ4NzYtNTdiOS00OGEwLTkwNGMtNzJkZWQzNThmMGNjIiwicHJvZmlsZVVpZCI6ImNjNzliYWEwLWIwZTItNDY4Ni1iM2VkLTVhY2E5NTRlMzY0NyIsImlhdCI6MTY3NjM4MjY1MSwiZXhwIjoxNjc2NDY5MDUxfQ.E85tmAR3up3R0tOHb84s6ZzaKMPwVOmkOP0pG93aaxc
+
+{
+  "name": "Guilherme A Niches",
+  "phone": "53981625050",
+  "email": "guilherme.niches@growdev.com"
+}

@@ -4,3 +4,4 @@ export * from './user.model';
 export * from './credential-user.model';
 export * from './simple-user.model';
 export * from './product.model';
+export * from './faq.model';
